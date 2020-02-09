@@ -5,6 +5,10 @@ import random
 import tkinter.filedialog
 import os
 
+
+from enum import Enum
+from enum import IntEnum
+
 class Tiles():
     def __init__(self, grid):
         self.tiles = []
@@ -26,12 +30,15 @@ class Tiles():
             tile.show()
 
 
-class Tile(Label):
-    def __init__(self, parent, image, pos):
-        Label.__init__(self, parent, image = image)
-        self.image = image
-        self.pos = pos
-        self.curPos = pos
+class TileState(Enum):
+    DISCARDED = "discarded"
+
+class Tile():
+    def __init__(self, tile_code):
+        self.tile_code = tile_code
+        self.tile_pattern = tile_code / 10
+        self.tile_number = tile_code % 10
+        self.tileState = TileState.DISCARDED
 
     def show(self):
         self.grid(row = self.pos[0], column = self.pos[1])
@@ -112,11 +119,13 @@ class Main():
 
 def main():
     print("main()")
+    tile0 = Tile(40)
+    print(tile0.tile_pattern)
 
 if __name__ == "__main__":
     main()
-    root = Tk()
-    Main(root)
-    root.mainloop()
+    #root = Tk()
+    #Main(root)
+    #root.mainloop()
 
     
