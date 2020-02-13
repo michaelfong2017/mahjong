@@ -31,7 +31,7 @@ class Tile:
 
     def __str__(self):
         return f"{self.tile_code}"
-        
+    
     def __lt__(self, tile):
         return self.tile_integer < tile.tile_integer
     
@@ -150,6 +150,9 @@ def main():
     testState.ownPlayer.tiles_displayed.append([Tile("05")])
     testState.ownPlayer.tiles_displayed[0].append(Tile("05"))
     testState.ownPlayer.tiles_displayed[0].append(Tile("05"))
+    #testState.ownPlayer.tiles_hand.append(Tile("00"))
+    #testState.ownPlayer.tiles_hand.append(Tile("08"))
+    #testState.ownPlayer.tiles_hand.append(Tile("10"))
     testState.ownPlayer.tiles_hand.append(Tile("11"))
     testState.ownPlayer.tiles_hand.append(Tile("12"))
     testState.ownPlayer.tiles_hand.append(Tile("12"))
@@ -159,8 +162,8 @@ def main():
     testState.ownPlayer.tiles_hand.append(Tile("13"))
     testState.ownPlayer.tiles_hand.append(Tile("14"))
     testState.ownPlayer.tiles_hand.append(Tile("14"))
-    testState.ownPlayer.tiles_hand.append(Tile("16"))
-    testState.ownPlayer.tiles_hand.append(Tile("36"))
+    testState.ownPlayer.tiles_hand.append(Tile("28"))
+    testState.ownPlayer.tiles_hand.append(Tile("28"))
     
     
     features = SimpleExtractor.getFeatures(SimpleExtractor, testState)

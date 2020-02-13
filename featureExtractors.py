@@ -74,6 +74,24 @@ class SimpleExtractor(FeatureExtractor):
         """
         features["number of melds"] = SimpleExtractor.GetNumberOfMelds(self, state)
         
+        
+        """
+        Count number of orphans
+        """
+        features["number of orphans"] = SimpleExtractor.GetNumberOfOrphans(self, state)
+        
+        
+        """
+        Is 13 orphans
+        """
+        features["is 13 orphans"] = SimpleExtractor.Is_13_Orphans(self, state)
+        
+        """
+        IsWin
+        """
+        features["is win"] = SimpleExtractor.IsWin(self, state)
+
+
         """
         Remaining pool count
         ##########
@@ -200,15 +218,17 @@ class SimpleExtractor(FeatureExtractor):
         return count
         
     def GetNumberOfMelds(self, state):
+        tiles_hand = state.ownPlayer.tiles_hand
+        
         indexes = []
         resume = 0
-        for i in range(len(state.ownPlayer.tiles_hand)):
+        for i in range(len(tiles_hand)):
             if i < resume:
                 continue
-            if SimpleExtractor.IsQuadruplet(self, state, state.ownPlayer.tiles_hand[i]):
+            if SimpleExtractor.IsQuadruplet(self, state, tiles_hand[i]):
                 indexes.append(i)
                 resume = i + 4
-            elif SimpleExtractor.IsTriplet(self, state, state.ownPlayer.tiles_hand[i]):
+            elif SimpleExtractor.IsTriplet(self, state, tiles_hand[i]):
                 indexes.append(i)
                 resume = i + 3
                 
@@ -217,193 +237,270 @@ class SimpleExtractor(FeatureExtractor):
         for i in range(numberOfTriplets):
             if i == 0:
                 for j in range(numberOfTriplets):
-                    tile = state.ownPlayer.tiles_hand.pop(indexes[j])
-                    state.ownPlayer.tiles_hand.pop(indexes[j])
-                    state.ownPlayer.tiles_hand.pop(indexes[j])
+                    tile = tiles_hand.pop(indexes[j])
+                    tiles_hand.pop(indexes[j])
+                    tiles_hand.pop(indexes[j])
                     if maxNumberOfMelds < SimpleExtractor.GetNumberOfSequencesExceptMelds(self, state) + 1:
                         maxNumberOfMelds = SimpleExtractor.GetNumberOfSequencesExceptMelds(self, state) + 1
-                    state.ownPlayer.tiles_hand.insert(indexes[j], tile)
-                    state.ownPlayer.tiles_hand.insert(indexes[j], tile)
-                    state.ownPlayer.tiles_hand.insert(indexes[j], tile)
+                    tiles_hand.insert(indexes[j], tile)
+                    tiles_hand.insert(indexes[j], tile)
+                    tiles_hand.insert(indexes[j], tile)
             if i == 1:
                 if numberOfTriplets >= 2:
-                    tile1 = state.ownPlayer.tiles_hand.pop(indexes[1])
-                    state.ownPlayer.tiles_hand.pop(indexes[1])
-                    state.ownPlayer.tiles_hand.pop(indexes[1])
-                    tile0 = state.ownPlayer.tiles_hand.pop(indexes[0])
-                    state.ownPlayer.tiles_hand.pop(indexes[0])
-                    state.ownPlayer.tiles_hand.pop(indexes[0])
+                    tile1 = tiles_hand.pop(indexes[1])
+                    tiles_hand.pop(indexes[1])
+                    tiles_hand.pop(indexes[1])
+                    tile0 = tiles_hand.pop(indexes[0])
+                    tiles_hand.pop(indexes[0])
+                    tiles_hand.pop(indexes[0])
                     if maxNumberOfMelds < SimpleExtractor.GetNumberOfSequencesExceptMelds(self, state) + 2:
                         maxNumberOfMelds = SimpleExtractor.GetNumberOfSequencesExceptMelds(self, state) + 2
-                    state.ownPlayer.tiles_hand.insert(indexes[0], tile0)
-                    state.ownPlayer.tiles_hand.insert(indexes[0], tile0)
-                    state.ownPlayer.tiles_hand.insert(indexes[0], tile0)
-                    state.ownPlayer.tiles_hand.insert(indexes[1], tile1)
-                    state.ownPlayer.tiles_hand.insert(indexes[1], tile1)
-                    state.ownPlayer.tiles_hand.insert(indexes[1], tile1)
+                    tiles_hand.insert(indexes[0], tile0)
+                    tiles_hand.insert(indexes[0], tile0)
+                    tiles_hand.insert(indexes[0], tile0)
+                    tiles_hand.insert(indexes[1], tile1)
+                    tiles_hand.insert(indexes[1], tile1)
+                    tiles_hand.insert(indexes[1], tile1)
                 if numberOfTriplets >= 3:
-                    tile1 = state.ownPlayer.tiles_hand.pop(indexes[2])
-                    state.ownPlayer.tiles_hand.pop(indexes[2])
-                    state.ownPlayer.tiles_hand.pop(indexes[2])
-                    tile0 = state.ownPlayer.tiles_hand.pop(indexes[0])
-                    state.ownPlayer.tiles_hand.pop(indexes[0])
-                    state.ownPlayer.tiles_hand.pop(indexes[0])
+                    tile1 = tiles_hand.pop(indexes[2])
+                    tiles_hand.pop(indexes[2])
+                    tiles_hand.pop(indexes[2])
+                    tile0 = tiles_hand.pop(indexes[0])
+                    tiles_hand.pop(indexes[0])
+                    tiles_hand.pop(indexes[0])
                     if maxNumberOfMelds < SimpleExtractor.GetNumberOfSequencesExceptMelds(self, state) + 2:
                         maxNumberOfMelds = SimpleExtractor.GetNumberOfSequencesExceptMelds(self, state) + 2
-                    state.ownPlayer.tiles_hand.insert(indexes[0], tile0)
-                    state.ownPlayer.tiles_hand.insert(indexes[0], tile0)
-                    state.ownPlayer.tiles_hand.insert(indexes[0], tile0)
-                    state.ownPlayer.tiles_hand.insert(indexes[2], tile1)
-                    state.ownPlayer.tiles_hand.insert(indexes[2], tile1)
-                    state.ownPlayer.tiles_hand.insert(indexes[2], tile1)
+                    tiles_hand.insert(indexes[0], tile0)
+                    tiles_hand.insert(indexes[0], tile0)
+                    tiles_hand.insert(indexes[0], tile0)
+                    tiles_hand.insert(indexes[2], tile1)
+                    tiles_hand.insert(indexes[2], tile1)
+                    tiles_hand.insert(indexes[2], tile1)
                     # # # # # # # # # #
-                    tile1 = state.ownPlayer.tiles_hand.pop(indexes[2])
-                    state.ownPlayer.tiles_hand.pop(indexes[2])
-                    state.ownPlayer.tiles_hand.pop(indexes[2])
-                    tile0 = state.ownPlayer.tiles_hand.pop(indexes[1])
-                    state.ownPlayer.tiles_hand.pop(indexes[1])
-                    state.ownPlayer.tiles_hand.pop(indexes[1])
+                    tile1 = tiles_hand.pop(indexes[2])
+                    tiles_hand.pop(indexes[2])
+                    tiles_hand.pop(indexes[2])
+                    tile0 = tiles_hand.pop(indexes[1])
+                    tiles_hand.pop(indexes[1])
+                    tiles_hand.pop(indexes[1])
                     if maxNumberOfMelds < SimpleExtractor.GetNumberOfSequencesExceptMelds(self, state) + 2:
                         maxNumberOfMelds = SimpleExtractor.GetNumberOfSequencesExceptMelds(self, state) + 2
-                    state.ownPlayer.tiles_hand.insert(indexes[1], tile0)
-                    state.ownPlayer.tiles_hand.insert(indexes[1], tile0)
-                    state.ownPlayer.tiles_hand.insert(indexes[1], tile0)
-                    state.ownPlayer.tiles_hand.insert(indexes[2], tile1)
-                    state.ownPlayer.tiles_hand.insert(indexes[2], tile1)
-                    state.ownPlayer.tiles_hand.insert(indexes[2], tile1)
+                    tiles_hand.insert(indexes[1], tile0)
+                    tiles_hand.insert(indexes[1], tile0)
+                    tiles_hand.insert(indexes[1], tile0)
+                    tiles_hand.insert(indexes[2], tile1)
+                    tiles_hand.insert(indexes[2], tile1)
+                    tiles_hand.insert(indexes[2], tile1)
                 if numberOfTriplets == 4:
-                    tile1 = state.ownPlayer.tiles_hand.pop(indexes[3])
-                    state.ownPlayer.tiles_hand.pop(indexes[3])
-                    state.ownPlayer.tiles_hand.pop(indexes[3])
-                    tile0 = state.ownPlayer.tiles_hand.pop(indexes[0])
-                    state.ownPlayer.tiles_hand.pop(indexes[0])
-                    state.ownPlayer.tiles_hand.pop(indexes[0])
+                    tile1 = tiles_hand.pop(indexes[3])
+                    tiles_hand.pop(indexes[3])
+                    tiles_hand.pop(indexes[3])
+                    tile0 = tiles_hand.pop(indexes[0])
+                    tiles_hand.pop(indexes[0])
+                    tiles_hand.pop(indexes[0])
                     if maxNumberOfMelds < SimpleExtractor.GetNumberOfSequencesExceptMelds(self, state) + 2:
                         maxNumberOfMelds = SimpleExtractor.GetNumberOfSequencesExceptMelds(self, state) + 2
-                    state.ownPlayer.tiles_hand.insert(indexes[0], tile0)
-                    state.ownPlayer.tiles_hand.insert(indexes[0], tile0)
-                    state.ownPlayer.tiles_hand.insert(indexes[0], tile0)
-                    state.ownPlayer.tiles_hand.insert(indexes[3], tile1)
-                    state.ownPlayer.tiles_hand.insert(indexes[3], tile1)
-                    state.ownPlayer.tiles_hand.insert(indexes[3], tile1)
+                    tiles_hand.insert(indexes[0], tile0)
+                    tiles_hand.insert(indexes[0], tile0)
+                    tiles_hand.insert(indexes[0], tile0)
+                    tiles_hand.insert(indexes[3], tile1)
+                    tiles_hand.insert(indexes[3], tile1)
+                    tiles_hand.insert(indexes[3], tile1)
                     # # # # # # # # # #
-                    tile1 = state.ownPlayer.tiles_hand.pop(indexes[3])
-                    state.ownPlayer.tiles_hand.pop(indexes[3])
-                    state.ownPlayer.tiles_hand.pop(indexes[3])
-                    tile0 = state.ownPlayer.tiles_hand.pop(indexes[1])
-                    state.ownPlayer.tiles_hand.pop(indexes[1])
-                    state.ownPlayer.tiles_hand.pop(indexes[1])
+                    tile1 = tiles_hand.pop(indexes[3])
+                    tiles_hand.pop(indexes[3])
+                    tiles_hand.pop(indexes[3])
+                    tile0 = tiles_hand.pop(indexes[1])
+                    tiles_hand.pop(indexes[1])
+                    tiles_hand.pop(indexes[1])
                     if maxNumberOfMelds < SimpleExtractor.GetNumberOfSequencesExceptMelds(self, state) + 2:
                         maxNumberOfMelds = SimpleExtractor.GetNumberOfSequencesExceptMelds(self, state) + 2
-                    state.ownPlayer.tiles_hand.insert(indexes[1], tile0)
-                    state.ownPlayer.tiles_hand.insert(indexes[1], tile0)
-                    state.ownPlayer.tiles_hand.insert(indexes[1], tile0)
-                    state.ownPlayer.tiles_hand.insert(indexes[3], tile1)
-                    state.ownPlayer.tiles_hand.insert(indexes[3], tile1)
-                    state.ownPlayer.tiles_hand.insert(indexes[3], tile1)
+                    tiles_hand.insert(indexes[1], tile0)
+                    tiles_hand.insert(indexes[1], tile0)
+                    tiles_hand.insert(indexes[1], tile0)
+                    tiles_hand.insert(indexes[3], tile1)
+                    tiles_hand.insert(indexes[3], tile1)
+                    tiles_hand.insert(indexes[3], tile1)
                     # # # # # # # # # #
-                    tile1 = state.ownPlayer.tiles_hand.pop(indexes[3])
-                    state.ownPlayer.tiles_hand.pop(indexes[3])
-                    state.ownPlayer.tiles_hand.pop(indexes[3])
-                    tile0 = state.ownPlayer.tiles_hand.pop(indexes[2])
-                    state.ownPlayer.tiles_hand.pop(indexes[2])
-                    state.ownPlayer.tiles_hand.pop(indexes[2])
+                    tile1 = tiles_hand.pop(indexes[3])
+                    tiles_hand.pop(indexes[3])
+                    tiles_hand.pop(indexes[3])
+                    tile0 = tiles_hand.pop(indexes[2])
+                    tiles_hand.pop(indexes[2])
+                    tiles_hand.pop(indexes[2])
                     if maxNumberOfMelds < SimpleExtractor.GetNumberOfSequencesExceptMelds(self, state) + 2:
                         maxNumberOfMelds = SimpleExtractor.GetNumberOfSequencesExceptMelds(self, state) + 2
-                    state.ownPlayer.tiles_hand.insert(indexes[2], tile0)
-                    state.ownPlayer.tiles_hand.insert(indexes[2], tile0)
-                    state.ownPlayer.tiles_hand.insert(indexes[2], tile0)
-                    state.ownPlayer.tiles_hand.insert(indexes[3], tile1)
-                    state.ownPlayer.tiles_hand.insert(indexes[3], tile1)
-                    state.ownPlayer.tiles_hand.insert(indexes[3], tile1)
+                    tiles_hand.insert(indexes[2], tile0)
+                    tiles_hand.insert(indexes[2], tile0)
+                    tiles_hand.insert(indexes[2], tile0)
+                    tiles_hand.insert(indexes[3], tile1)
+                    tiles_hand.insert(indexes[3], tile1)
+                    tiles_hand.insert(indexes[3], tile1)
             if i == 2:
                 if numberOfTriplets >= 3:
-                    tile2 = state.ownPlayer.tiles_hand.pop(indexes[2])
-                    state.ownPlayer.tiles_hand.pop(indexes[2])
-                    state.ownPlayer.tiles_hand.pop(indexes[2])
-                    tile1 = state.ownPlayer.tiles_hand.pop(indexes[1])
-                    state.ownPlayer.tiles_hand.pop(indexes[1])
-                    state.ownPlayer.tiles_hand.pop(indexes[1])
-                    tile0 = state.ownPlayer.tiles_hand.pop(indexes[0])
-                    state.ownPlayer.tiles_hand.pop(indexes[0])
-                    state.ownPlayer.tiles_hand.pop(indexes[0])
+                    tile2 = tiles_hand.pop(indexes[2])
+                    tiles_hand.pop(indexes[2])
+                    tiles_hand.pop(indexes[2])
+                    tile1 = tiles_hand.pop(indexes[1])
+                    tiles_hand.pop(indexes[1])
+                    tiles_hand.pop(indexes[1])
+                    tile0 = tiles_hand.pop(indexes[0])
+                    tiles_hand.pop(indexes[0])
+                    tiles_hand.pop(indexes[0])
                     if maxNumberOfMelds < SimpleExtractor.GetNumberOfSequencesExceptMelds(self, state) + 2:
                         maxNumberOfMelds = SimpleExtractor.GetNumberOfSequencesExceptMelds(self, state) + 2
-                    state.ownPlayer.tiles_hand.insert(indexes[0], tile0)
-                    state.ownPlayer.tiles_hand.insert(indexes[0], tile0)
-                    state.ownPlayer.tiles_hand.insert(indexes[0], tile0)
-                    state.ownPlayer.tiles_hand.insert(indexes[1], tile1)
-                    state.ownPlayer.tiles_hand.insert(indexes[1], tile1)
-                    state.ownPlayer.tiles_hand.insert(indexes[1], tile1)
-                    state.ownPlayer.tiles_hand.insert(indexes[2], tile2)
-                    state.ownPlayer.tiles_hand.insert(indexes[2], tile2)
-                    state.ownPlayer.tiles_hand.insert(indexes[2], tile2)
+                    tiles_hand.insert(indexes[0], tile0)
+                    tiles_hand.insert(indexes[0], tile0)
+                    tiles_hand.insert(indexes[0], tile0)
+                    tiles_hand.insert(indexes[1], tile1)
+                    tiles_hand.insert(indexes[1], tile1)
+                    tiles_hand.insert(indexes[1], tile1)
+                    tiles_hand.insert(indexes[2], tile2)
+                    tiles_hand.insert(indexes[2], tile2)
+                    tiles_hand.insert(indexes[2], tile2)
                 if numberOfTriplets == 4:
-                    tile2 = state.ownPlayer.tiles_hand.pop(indexes[3])
-                    state.ownPlayer.tiles_hand.pop(indexes[3])
-                    state.ownPlayer.tiles_hand.pop(indexes[3])
-                    tile1 = state.ownPlayer.tiles_hand.pop(indexes[1])
-                    state.ownPlayer.tiles_hand.pop(indexes[1])
-                    state.ownPlayer.tiles_hand.pop(indexes[1])
-                    tile0 = state.ownPlayer.tiles_hand.pop(indexes[0])
-                    state.ownPlayer.tiles_hand.pop(indexes[0])
-                    state.ownPlayer.tiles_hand.pop(indexes[0])
+                    tile2 = tiles_hand.pop(indexes[3])
+                    tiles_hand.pop(indexes[3])
+                    tiles_hand.pop(indexes[3])
+                    tile1 = tiles_hand.pop(indexes[1])
+                    tiles_hand.pop(indexes[1])
+                    tiles_hand.pop(indexes[1])
+                    tile0 = tiles_hand.pop(indexes[0])
+                    tiles_hand.pop(indexes[0])
+                    tiles_hand.pop(indexes[0])
                     if maxNumberOfMelds < SimpleExtractor.GetNumberOfSequencesExceptMelds(self, state) + 2:
                         maxNumberOfMelds = SimpleExtractor.GetNumberOfSequencesExceptMelds(self, state) + 2
-                    state.ownPlayer.tiles_hand.insert(indexes[0], tile0)
-                    state.ownPlayer.tiles_hand.insert(indexes[0], tile0)
-                    state.ownPlayer.tiles_hand.insert(indexes[0], tile0)
-                    state.ownPlayer.tiles_hand.insert(indexes[1], tile1)
-                    state.ownPlayer.tiles_hand.insert(indexes[1], tile1)
-                    state.ownPlayer.tiles_hand.insert(indexes[1], tile1)
-                    state.ownPlayer.tiles_hand.insert(indexes[3], tile2)
-                    state.ownPlayer.tiles_hand.insert(indexes[3], tile2)
-                    state.ownPlayer.tiles_hand.insert(indexes[3], tile2)
+                    tiles_hand.insert(indexes[0], tile0)
+                    tiles_hand.insert(indexes[0], tile0)
+                    tiles_hand.insert(indexes[0], tile0)
+                    tiles_hand.insert(indexes[1], tile1)
+                    tiles_hand.insert(indexes[1], tile1)
+                    tiles_hand.insert(indexes[1], tile1)
+                    tiles_hand.insert(indexes[3], tile2)
+                    tiles_hand.insert(indexes[3], tile2)
+                    tiles_hand.insert(indexes[3], tile2)
                     # # # # # # # # # #
-                    tile2 = state.ownPlayer.tiles_hand.pop(indexes[3])
-                    state.ownPlayer.tiles_hand.pop(indexes[3])
-                    state.ownPlayer.tiles_hand.pop(indexes[3])
-                    tile1 = state.ownPlayer.tiles_hand.pop(indexes[2])
-                    state.ownPlayer.tiles_hand.pop(indexes[2])
-                    state.ownPlayer.tiles_hand.pop(indexes[2])
-                    tile0 = state.ownPlayer.tiles_hand.pop(indexes[0])
-                    state.ownPlayer.tiles_hand.pop(indexes[0])
-                    state.ownPlayer.tiles_hand.pop(indexes[0])
+                    tile2 = tiles_hand.pop(indexes[3])
+                    tiles_hand.pop(indexes[3])
+                    tiles_hand.pop(indexes[3])
+                    tile1 = tiles_hand.pop(indexes[2])
+                    tiles_hand.pop(indexes[2])
+                    tiles_hand.pop(indexes[2])
+                    tile0 = tiles_hand.pop(indexes[0])
+                    tiles_hand.pop(indexes[0])
+                    tiles_hand.pop(indexes[0])
                     if maxNumberOfMelds < SimpleExtractor.GetNumberOfSequencesExceptMelds(self, state) + 2:
                         maxNumberOfMelds = SimpleExtractor.GetNumberOfSequencesExceptMelds(self, state) + 2
-                    state.ownPlayer.tiles_hand.insert(indexes[0], tile0)
-                    state.ownPlayer.tiles_hand.insert(indexes[0], tile0)
-                    state.ownPlayer.tiles_hand.insert(indexes[0], tile0)
-                    state.ownPlayer.tiles_hand.insert(indexes[2], tile1)
-                    state.ownPlayer.tiles_hand.insert(indexes[2], tile1)
-                    state.ownPlayer.tiles_hand.insert(indexes[2], tile1)
-                    state.ownPlayer.tiles_hand.insert(indexes[3], tile2)
-                    state.ownPlayer.tiles_hand.insert(indexes[3], tile2)
-                    state.ownPlayer.tiles_hand.insert(indexes[3], tile2)
+                    tiles_hand.insert(indexes[0], tile0)
+                    tiles_hand.insert(indexes[0], tile0)
+                    tiles_hand.insert(indexes[0], tile0)
+                    tiles_hand.insert(indexes[2], tile1)
+                    tiles_hand.insert(indexes[2], tile1)
+                    tiles_hand.insert(indexes[2], tile1)
+                    tiles_hand.insert(indexes[3], tile2)
+                    tiles_hand.insert(indexes[3], tile2)
+                    tiles_hand.insert(indexes[3], tile2)
                     # # # # # # # # # #
-                    tile2 = state.ownPlayer.tiles_hand.pop(indexes[3])
-                    state.ownPlayer.tiles_hand.pop(indexes[3])
-                    state.ownPlayer.tiles_hand.pop(indexes[3])
-                    tile1 = state.ownPlayer.tiles_hand.pop(indexes[2])
-                    state.ownPlayer.tiles_hand.pop(indexes[2])
-                    state.ownPlayer.tiles_hand.pop(indexes[2])
-                    tile0 = state.ownPlayer.tiles_hand.pop(indexes[1])
-                    state.ownPlayer.tiles_hand.pop(indexes[1])
-                    state.ownPlayer.tiles_hand.pop(indexes[1])
+                    tile2 = tiles_hand.pop(indexes[3])
+                    tiles_hand.pop(indexes[3])
+                    tiles_hand.pop(indexes[3])
+                    tile1 = tiles_hand.pop(indexes[2])
+                    tiles_hand.pop(indexes[2])
+                    tiles_hand.pop(indexes[2])
+                    tile0 = tiles_hand.pop(indexes[1])
+                    tiles_hand.pop(indexes[1])
+                    tiles_hand.pop(indexes[1])
                     if maxNumberOfMelds < SimpleExtractor.GetNumberOfSequencesExceptMelds(self, state) + 2:
                         maxNumberOfMelds = SimpleExtractor.GetNumberOfSequencesExceptMelds(self, state) + 2
-                    state.ownPlayer.tiles_hand.insert(indexes[1], tile0)
-                    state.ownPlayer.tiles_hand.insert(indexes[1], tile0)
-                    state.ownPlayer.tiles_hand.insert(indexes[1], tile0)
-                    state.ownPlayer.tiles_hand.insert(indexes[2], tile1)
-                    state.ownPlayer.tiles_hand.insert(indexes[2], tile1)
-                    state.ownPlayer.tiles_hand.insert(indexes[2], tile1)
-                    state.ownPlayer.tiles_hand.insert(indexes[3], tile2)
-                    state.ownPlayer.tiles_hand.insert(indexes[3], tile2)
-                    state.ownPlayer.tiles_hand.insert(indexes[3], tile2)
+                    tiles_hand.insert(indexes[1], tile0)
+                    tiles_hand.insert(indexes[1], tile0)
+                    tiles_hand.insert(indexes[1], tile0)
+                    tiles_hand.insert(indexes[2], tile1)
+                    tiles_hand.insert(indexes[2], tile1)
+                    tiles_hand.insert(indexes[2], tile1)
+                    tiles_hand.insert(indexes[3], tile2)
+                    tiles_hand.insert(indexes[3], tile2)
+                    tiles_hand.insert(indexes[3], tile2)
                     
                     
         maxNumberOfMelds = maxNumberOfMelds + len(state.ownPlayer.tiles_displayed)
         
         return maxNumberOfMelds
             
+    def IsWin(self, state): #Input must include the 14th tile
+        if SimpleExtractor.Is_13_Orphans(self, state):
+            return True
+    
+        tiles_hand = state.ownPlayer.tiles_hand
+        if not len(tiles_hand) % 3 == 2:
+            return False
+        for i in range(len(tiles_hand) - 1):
+            if i < len(tiles_hand) - 2:
+                if tiles_hand[i].tile_integer == tiles_hand[i + 1].tile_integer and not tiles_hand[i].tile_integer == tiles_hand[i + 2].tile_integer:
+                    tile = tiles_hand.pop(i)
+                    tiles_hand.pop(i)
+                    
+                    sum = 0
+                    for eachTile in tiles_hand:
+                        sum = sum + eachTile.tile_integer
+                    if not sum % 3 == 0:
+                        tiles_hand.insert(i, tile)
+                        tiles_hand.insert(i, tile)
+                        continue
+                        
+                    if SimpleExtractor.GetNumberOfMelds(self, state) == 4:
+                        tiles_hand.insert(i, tile)
+                        tiles_hand.insert(i, tile)
+                        return True
+                    else:
+                        tiles_hand.insert(i, tile)
+                        tiles_hand.insert(i, tile)
+            else:
+                if tiles_hand[i].tile_integer == tiles_hand[i + 1].tile_integer:
+                    tile = tiles_hand.pop(i)
+                    tiles_hand.pop(i)
+                    
+                    sum = 0
+                    for eachTile in tiles_hand:
+                        sum = sum + eachTile.tile_integer
+                    if not sum % 3 == 0:
+                        tiles_hand.insert(i, tile)
+                        tiles_hand.insert(i, tile)
+                        continue
+                        
+                    if SimpleExtractor.GetNumberOfMelds(self, state) == 4:
+                        tiles_hand.insert(i, tile)
+                        tiles_hand.insert(i, tile)
+                        return True
+                    else:
+                        tiles_hand.insert(i, tile)
+                        tiles_hand.insert(i, tile)
+        
+        return False
+        
+        
+    def GetNumberOfOrphans(self, state):
+        tiles_unique = list(set(state.ownPlayer.tiles_hand))
+        count = 0
+        
+        for orphan in ["00", "08", "10", "18", "20", "28", "30",
+        "31", "32", "33", "34", "35", "36"]:
+            for tile in tiles_unique:
+                if tile.tile_code == orphan:
+                    count = count + 1
+                    break
+        
+        return count
+    
+    def Is_13_Orphans(self, state):
+        if not len(state.ownPlayer.tiles_hand) == 14:
+            return False
+        for tile in state.ownPlayer.tiles_hand:
+            if tile.tile_code not in ["00", "08", "10", "18", "20", "28", "30",
+            "31", "32", "33", "34", "35", "36"]:
+                return False
+                
+        if SimpleExtractor.GetNumberOfOrphans(self, state) == 13:
+            return True
+        else:
+            return False
