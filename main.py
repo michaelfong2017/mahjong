@@ -7,120 +7,164 @@ import os
 
 
 from enum import Enum
-from enum import IntEnum
-
-class Tiles():
-    def __init__(self, grid):
-        self.tiles = []
-        self.grid = grid
-    
-    def add(self, tile):
-        self.tiles.append(tile)
-
-    def shuffle(self):
-        random.shuffle(self.tiles)
-        i = 0
-        for row in self.grid:
-            for col in range(self.grid):
-                self.tiles[i].pos = (row, col)
-                i += 1
-
-    def show(self):
-        for tile in self.tiles:
-            tile.show()
+import random
 
 
-class TileState(Enum):
-    DISCARDED = "discarded"
+from featureExtractors import *
 
-class Tile():
+
+
+class DiscardBy(Enum):
+    NOBODY = "nobody"
+    PLAYER_0 = 0
+    PLAYER_1 = 1
+    PLAYER_2 = 2
+    PLAYER_3 = 3
+
+class Tile:
     def __init__(self, tile_code):
         self.tile_code = tile_code
-        self.tile_pattern = tile_code / 10
-        self.tile_number = tile_code % 10
-        self.tileState = TileState.DISCARDED
+        self.tile_pattern = int(int(self.tile_code) / 10)
+        self.tile_number = int(self.tile_code) % 10
+        self.discardedBy = DiscardBy.NOBODY
 
-    def show(self):
-        self.grid(row = self.pos[0], column = self.pos[1])
-
-class Board(Frame):
-    MAX_BOARD_SIZE = 500
-    def __init__(self, parent, image, grid, *args, **kwargs):
-        Frame.__init__(self, parent, *args, **kwargs)
-
-        self.parent = parent
-        self.grid = grid
-        self.image = self.openImage(image)
-        self.tileSize = self.image.size[0]/self.grid
-        self.tiles = self.createTiles()
-        #self.tiles.shuffle()
-        self.tiles.show()
+    def __str__(self):
+        return f"{self.tile_code}"
     
-    def openImage(self, image):
-        image = Image.open(image)
-        imageSize = min(image.size)
-        if imageSize > self.MAX_BOARD_SIZE:
-            image = image.resize((self.MAX_BOARD_SIZE, self.MAX_BOARD_SIZE), Image.ANTIALIAS)
-        if image.size[0] != image.size[1]:
-            image = image.crop((0, 0, image.size[0], image.size[0]))
-        return image
 
-    def createTiles(self):
-        tiles = Tiles(self.grid)
-        for row in range(self.grid):
-            for col in range(self.grid):
-                x0 = row*self.tileSize
-                y0 = col*self.tileSize
-                x1 = x0 + self.tileSize
-                y1 = y0 + self.tileSize
-                tileImage = ImageTk.PhotoImage(self.image.crop((x0, y0, x1, y1)))
-                tile = Tile(self, tileImage, (row, col))
-                tiles.add(tile)
-        return tiles
+class TileType(Enum):
+    _00 = "00"
+    _01 = "01"
+    _02 = "02"
+    _03 = "03"
+    _04 = "04"
+    _05 = "05"
+    _06 = "06"
+    _07 = "07"
+    _08 = "08"
+    _10 = "10"
+    _11 = "11"
+    _12 = "12"
+    _13 = "13"
+    _14 = "14"
+    _15 = "15"
+    _16 = "16"
+    _17 = "17"
+    _18 = "18"
+    _20 = "20"
+    _21 = "21"
+    _22 = "22"
+    _23 = "23"
+    _24 = "24"
+    _25 = "25"
+    _26 = "26"
+    _27 = "27"
+    _28 = "28"
+    _30 = "30"
+    _31 = "31"
+    _32 = "32"
+    _33 = "33"
+    _34 = "34"
+    _35 = "35"
+    _36 = "36"
+    _40 = "40"
+    _41 = "41"
+    _42 = "42"
+    _43 = "43"
+    _44 = "44"
+    _45 = "45"
+    _46 = "46"
+    _47 = "47"
+
+class Player:
+    def __init__(self, player_number):
+        self.player_number = player_number
+        self.tiles_hand = []
+        self.tiles_displayed = [] #2D
+        self.tiles_flower = []
+        
+    def GetTiles_13Or14(self): #The 4th from gong, is not counted
+        tiles_13Or14 = []
+        for tile in self.tiles_hand:
+            tiles_13Or14.append(tile)
+        for tiles in self.tiles_displayed:
+            i = 0
+            for tile in tiles:
+                if not i == 3:
+                    tiles_13Or14.append(tile)
+                i = i + 1
+                
+        return tiles_13Or14
 
 
-class Main():
-    def __init__(self, parent):
-        self.parent = parent
+class OneGame:
+    def __init__(self, wind, dealer):
+        self.wind = wind
+        self.dealer = dealer
+        self.remaining_pool = []
+        self.discarded_pool = []
+        self.players = [Player(0), Player(1), Player(2), Player(3)]
+        self.state = State
+        self.state.ownPlayer = self.players[0]
 
-        self.image = StringVar()
-        self.grid = IntVar()
+        for i in range(4):
+            j = 0
+            for tileType in TileType:
+                if (i > 0 and j >= 34):
+                    break
+                self.remaining_pool.append(Tile(tileType.value))
+                j = j + 1
 
-        self.createWidgets()
-
-    def createWidgets(self):
-        #self.parent.geometry('500x500')
-        self.mainFrame = Frame(self.parent)
-        Label(self.mainFrame, text = 'Sliding Puzzle', font = ('', 50)).pack(padx = 10, pady = 10)
-        frame = Frame(self.mainFrame)
-        Label(frame, text = 'Image').grid(sticky = W)
-        Entry(frame, textvariable = self.image, width = 50).grid(row = 0, column = 1, padx = 10, pady = 10)
-        Button(frame, text = 'Browse', command = self.browse).grid(row = 0, column = 2, padx = 10, pady = 10)
-        Label(frame, text = 'Grid').grid(sticky = W)
-        OptionMenu(frame, self.grid, *[3, 4, 5, 6, 7, 8, 9, 10]).grid(row = 1, column = 1, padx = 10, pady = 10, sticky = W)
-        frame.pack()
-        Button(self.mainFrame, text = 'Start', command = self.start).pack(padx = 10, pady = 10)
-
-        self.mainFrame.pack()
-        self.board = Frame(self.parent)
-        self.winFrame = Frame(self.parent)
-
-    def start(self):
-        image = self.image.get()
-        grid = self.grid.get()
-        if os.path.exists(image):
-            self.board = Board(self.parent, image, grid)
-            self.mainFrame.pack_forget()
-            self.board.pack()
+        random.shuffle(self.remaining_pool)
+        
+        for i in range(4):
+            for j in range(13):
+                self.players[i].tiles_hand.append(self.remaining_pool.pop())
+        self.players[self.dealer].tiles_hand.append(self.remaining_pool.pop())
+        
+        
     
-    def browse(self):
-        self.image.set(tkinter.filedialog.askopenfilename(initialdir = "/*/SlidingPuzzle", title = "Select Image"))
+        
+    def getWind(self):
+        return self.wind
 
+
+class State:
+    ownPlayer = Player
+        
 
 def main():
     print("main()")
-    tile0 = Tile(40)
-    print(tile0.tile_pattern)
+    oneGame = OneGame(2, 3)
+    print(len(oneGame.remaining_pool))
+    print(oneGame.state.ownPlayer.tiles_hand[0])
+    print(SimpleExtractor.getFeatures(SimpleExtractor, oneGame.state)["length of longest suit"])
+    
+    testState = State
+    testState.ownPlayer = Player(0)
+    testState.ownPlayer.tiles_hand.append(Tile("00"))
+    testState.ownPlayer.tiles_hand.append(Tile("01"))
+    testState.ownPlayer.tiles_hand.append(Tile("02"))
+    testState.ownPlayer.tiles_hand.append(Tile("05"))
+    testState.ownPlayer.tiles_hand.append(Tile("05"))
+    testState.ownPlayer.tiles_hand.append(Tile("08"))
+    testState.ownPlayer.tiles_hand.append(Tile("12"))
+    testState.ownPlayer.tiles_hand.append(Tile("13"))
+    testState.ownPlayer.tiles_hand.append(Tile("23"))
+    testState.ownPlayer.tiles_hand.append(Tile("23"))
+    testState.ownPlayer.tiles_hand.append(Tile("23"))
+    testState.ownPlayer.tiles_hand.append(Tile("31"))
+    testState.ownPlayer.tiles_hand.append(Tile("36"))
+    testState.ownPlayer.tiles_hand.append(Tile("36"))
+    
+    print("features:")
+    print(SimpleExtractor.getFeatures(SimpleExtractor, testState)["length of longest dishonor suit"])
+    print(SimpleExtractor.getFeatures(SimpleExtractor, testState)["length of second and third longest dishonor suit"])
+    print(SimpleExtractor.getFeatures(SimpleExtractor, testState)["length of honor suit"])
+    print(SimpleExtractor.getFeatures(SimpleExtractor, testState)["is at least 11 honors"])
+    
+    
+    
 
 if __name__ == "__main__":
     main()
