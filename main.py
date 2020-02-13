@@ -24,12 +24,16 @@ class DiscardBy(Enum):
 class Tile:
     def __init__(self, tile_code):
         self.tile_code = tile_code
+        self.tile_integer = int(tile_code)
         self.tile_pattern = int(int(self.tile_code) / 10)
         self.tile_number = int(self.tile_code) % 10
         self.discardedBy = DiscardBy.NOBODY
 
     def __str__(self):
         return f"{self.tile_code}"
+        
+    def __lt__(self, tile):
+        return self.tile_integer < tile.tile_integer
     
 
 class TileType(Enum):
@@ -85,14 +89,14 @@ class Player:
         
     def GetTiles_13Or14(self): #The 4th from gong, is not counted
         tiles_13Or14 = []
-        for tile in self.tiles_hand:
-            tiles_13Or14.append(tile)
         for tiles in self.tiles_displayed:
             i = 0
             for tile in tiles:
                 if not i == 3:
                     tiles_13Or14.append(tile)
                 i = i + 1
+        for tile in self.tiles_hand:
+            tiles_13Or14.append(tile)
                 
         return tiles_13Or14
 
@@ -106,6 +110,7 @@ class OneGame:
         self.players = [Player(0), Player(1), Player(2), Player(3)]
         self.state = State
         self.state.ownPlayer = self.players[0]
+        self.state.remaining_pool = self.remaining_pool
 
         for i in range(4):
             j = 0
@@ -131,6 +136,7 @@ class OneGame:
 
 class State:
     ownPlayer = Player
+    remaining_pool = []
         
 
 def main():
@@ -138,30 +144,30 @@ def main():
     oneGame = OneGame(2, 3)
     print(len(oneGame.remaining_pool))
     print(oneGame.state.ownPlayer.tiles_hand[0])
-    print(SimpleExtractor.getFeatures(SimpleExtractor, oneGame.state)["length of longest suit"])
     
     testState = State
     testState.ownPlayer = Player(0)
-    testState.ownPlayer.tiles_hand.append(Tile("00"))
-    testState.ownPlayer.tiles_hand.append(Tile("01"))
-    testState.ownPlayer.tiles_hand.append(Tile("02"))
-    testState.ownPlayer.tiles_hand.append(Tile("05"))
-    testState.ownPlayer.tiles_hand.append(Tile("05"))
-    testState.ownPlayer.tiles_hand.append(Tile("08"))
+    testState.ownPlayer.tiles_displayed.append([Tile("05")])
+    testState.ownPlayer.tiles_displayed[0].append(Tile("05"))
+    testState.ownPlayer.tiles_displayed[0].append(Tile("05"))
+    testState.ownPlayer.tiles_hand.append(Tile("11"))
+    testState.ownPlayer.tiles_hand.append(Tile("12"))
+    testState.ownPlayer.tiles_hand.append(Tile("12"))
     testState.ownPlayer.tiles_hand.append(Tile("12"))
     testState.ownPlayer.tiles_hand.append(Tile("13"))
-    testState.ownPlayer.tiles_hand.append(Tile("23"))
-    testState.ownPlayer.tiles_hand.append(Tile("23"))
-    testState.ownPlayer.tiles_hand.append(Tile("23"))
-    testState.ownPlayer.tiles_hand.append(Tile("31"))
-    testState.ownPlayer.tiles_hand.append(Tile("36"))
+    testState.ownPlayer.tiles_hand.append(Tile("13"))
+    testState.ownPlayer.tiles_hand.append(Tile("13"))
+    testState.ownPlayer.tiles_hand.append(Tile("14"))
+    testState.ownPlayer.tiles_hand.append(Tile("14"))
+    testState.ownPlayer.tiles_hand.append(Tile("16"))
     testState.ownPlayer.tiles_hand.append(Tile("36"))
     
+    
+    features = SimpleExtractor.getFeatures(SimpleExtractor, testState)
     print("features:")
-    print(SimpleExtractor.getFeatures(SimpleExtractor, testState)["length of longest dishonor suit"])
-    print(SimpleExtractor.getFeatures(SimpleExtractor, testState)["length of second and third longest dishonor suit"])
-    print(SimpleExtractor.getFeatures(SimpleExtractor, testState)["length of honor suit"])
-    print(SimpleExtractor.getFeatures(SimpleExtractor, testState)["is at least 11 honors"])
+    #print("length of longest dishonor suit: " + str(features["length of longest dishonor suit"]))
+    for key in features:
+        print(key + ": " + str(features[key]))
     
     
     
