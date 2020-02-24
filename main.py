@@ -11,6 +11,7 @@ import random
 
 
 from featureExtractors import *
+from qLearningAgents import *
 
 
 
@@ -108,7 +109,7 @@ class OneGame:
         self.remaining_pool = []
         self.discarded_pool = []
         self.players = [Player(0), Player(1), Player(2), Player(3)]
-        self.state = State
+        self.state = State()
         self.state.ownPlayer = self.players[0]
         self.state.remaining_pool = self.remaining_pool
 
@@ -135,17 +136,44 @@ class OneGame:
 
 
 class State:
-    ownPlayer = Player
-    remaining_pool = []
+    def __init__(self):
+        self.ownPlayer = Player(0)
+        self.remaining_pool = []
+    
+    def __str__(self):
+        self.state = {}
+        tiles_displayed = []
+        i = 0
+        for tiles in self.ownPlayer.tiles_displayed:
+            j = 0
+            for tile in tiles:
+                if j == 0:
+                    tiles_displayed.append([tile.tile_code])
+                else:
+                    tiles_displayed[i].append(tile.tile_code)
+                j = j + 1
+            i = i + 1
+            
+        tiles_hand = []
+        for tile in self.ownPlayer.tiles_hand:
+            tiles_hand.append(tile.tile_code)
+            
+        
+        self.state["tiles_displayed"] = tiles_displayed
+        self.state["tiles_hand"] = tiles_hand
+        
+        
+        return f"{self.state}"
         
 
 def main():
     print("main()")
+    '''
     oneGame = OneGame(2, 3)
     print(len(oneGame.remaining_pool))
     print(oneGame.state.ownPlayer.tiles_hand[0])
     
-    testState = State
+    testState = State()
     testState.ownPlayer = Player(0)
     testState.ownPlayer.tiles_displayed.append([Tile("05")])
     testState.ownPlayer.tiles_displayed[0].append(Tile("05"))
@@ -161,9 +189,29 @@ def main():
     testState.ownPlayer.tiles_hand.append(Tile("13"))
     testState.ownPlayer.tiles_hand.append(Tile("13"))
     testState.ownPlayer.tiles_hand.append(Tile("14"))
-    testState.ownPlayer.tiles_hand.append(Tile("14"))
     testState.ownPlayer.tiles_hand.append(Tile("28"))
     testState.ownPlayer.tiles_hand.append(Tile("28"))
+    testState.ownPlayer.tiles_hand.append(Tile("28"))
+    
+    testNextState = State()
+    testNextState.ownPlayer = Player(0)
+    testNextState.ownPlayer.tiles_displayed.append([Tile("05")])
+    testNextState.ownPlayer.tiles_displayed[0].append(Tile("05"))
+    testNextState.ownPlayer.tiles_displayed[0].append(Tile("05"))
+    #testNextState.ownPlayer.tiles_hand.append(Tile("00"))
+    #testNextState.ownPlayer.tiles_hand.append(Tile("08"))
+    #testNextState.ownPlayer.tiles_hand.append(Tile("10"))
+    testNextState.ownPlayer.tiles_hand.append(Tile("11"))
+    testNextState.ownPlayer.tiles_hand.append(Tile("12"))
+    testNextState.ownPlayer.tiles_hand.append(Tile("12"))
+    testNextState.ownPlayer.tiles_hand.append(Tile("12"))
+    testNextState.ownPlayer.tiles_hand.append(Tile("13"))
+    testNextState.ownPlayer.tiles_hand.append(Tile("13"))
+    testNextState.ownPlayer.tiles_hand.append(Tile("13"))
+    testNextState.ownPlayer.tiles_hand.append(Tile("14"))
+    testNextState.ownPlayer.tiles_hand.append(Tile("14"))
+    testNextState.ownPlayer.tiles_hand.append(Tile("28"))
+    testNextState.ownPlayer.tiles_hand.append(Tile("28"))
     
     
     features = SimpleExtractor.getFeatures(SimpleExtractor, testState)
@@ -171,7 +219,109 @@ def main():
     #print("length of longest dishonor suit: " + str(features["length of longest dishonor suit"]))
     for key in features:
         print(key + ": " + str(features[key]))
+    '''
     
+    
+    
+    
+    '''
+    approximateQAgent = ApproximateQAgent()
+    print(approximateQAgent.getWeights())
+    print(approximateQAgent.getQValue(testNextState))
+    approximateQAgent.update(testState, testNextState, 100)
+    print(approximateQAgent.getWeights())
+    
+    testNextState = State()
+    testNextState.ownPlayer = Player(0)
+    testNextState.ownPlayer.tiles_displayed.append([Tile("05")])
+    testNextState.ownPlayer.tiles_displayed[0].append(Tile("05"))
+    testNextState.ownPlayer.tiles_displayed[0].append(Tile("05"))
+    #testNextState.ownPlayer.tiles_hand.append(Tile("00"))
+    #testNextState.ownPlayer.tiles_hand.append(Tile("08"))
+    #testNextState.ownPlayer.tiles_hand.append(Tile("10"))
+    testNextState.ownPlayer.tiles_hand.append(Tile("11"))
+    testNextState.ownPlayer.tiles_hand.append(Tile("12"))
+    testNextState.ownPlayer.tiles_hand.append(Tile("12"))
+    testNextState.ownPlayer.tiles_hand.append(Tile("12"))
+    testNextState.ownPlayer.tiles_hand.append(Tile("32"))
+    testNextState.ownPlayer.tiles_hand.append(Tile("27"))
+    testNextState.ownPlayer.tiles_hand.append(Tile("34"))
+    testNextState.ownPlayer.tiles_hand.append(Tile("25"))
+    testNextState.ownPlayer.tiles_hand.append(Tile("04"))
+    testNextState.ownPlayer.tiles_hand.append(Tile("28"))
+    testNextState.ownPlayer.tiles_hand.append(Tile("28"))
+    
+    print(approximateQAgent.getQValue(testNextState))
+    approximateQAgent.update(testState, testNextState, -50)
+    print(approximateQAgent.getWeights())
+    
+    
+    #approximateQAgent.update(testState, testNextState, 1000)
+    #print(approximateQAgent.getWeights())
+    '''
+    
+    
+    
+    from optparse import OptionParser
+    parser = OptionParser()
+    parser.add_option("-n", "--number", dest="numberOfDisplayed",
+                      help="write report to FILE", metavar="FILE")
+    (options, args) = parser.parse_args()
+    
+    numberOfDisplayed = options.numberOfDisplayed
+    
+    CalculateValue(numberOfDisplayed, args)
+    
+    
+def CalculateValue(numberOfDisplayed, *args):
+    state = State()
+    state.ownPlayer = Player(0)
+    i = 0
+    for arg in args[0]:
+        if i <= 3*int(numberOfDisplayed) - 1:
+            if i % 3 == 0:
+                state.ownPlayer.tiles_displayed.append([Tile(arg)])
+            else:
+                state.ownPlayer.tiles_displayed[int(i/3)].append(Tile(arg))
+        else:
+            state.ownPlayer.tiles_hand.append(Tile(arg))
+        i = i + 1
+        
+        
+    print("\n")
+    print("state: ")
+    state.ownPlayer.tiles_hand.sort()
+    print(state)
+    features = SimpleExtractor.getFeatures(SimpleExtractor, state)
+    
+    print("\n")
+    print("features: ")
+    #print("length of longest dishonor suit: " + str(features["length of longest dishonor suit"]))
+    for key in features:
+        print(key + ": " + str(features[key]))
+      
+    approximateQAgent = ApproximateQAgent()
+    
+    print("\n")
+    print("weights: ")
+    print(approximateQAgent.getWeights())
+    
+    print("\n")
+    print("score scale: ")
+    print('''
+    三番：400
+    四番：800
+    五番：1200
+    六番：1600
+    七番：2400
+    八番：3200
+    ''')
+    
+    print("\n")
+    print("value for the state: ")
+    print(approximateQAgent.getQValue(state))
+    
+        
     
     
 
