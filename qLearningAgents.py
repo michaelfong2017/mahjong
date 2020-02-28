@@ -180,6 +180,11 @@ class ApproximateQAgent(MahjongQAgent):
         self.weights["number of orphans"] = -1
         self.weights["is 13 orphans"] = 2500
         self.weights["is win"] = 1000
+        self.weights["is 10 score"] = 6400
+        self.weights["is 8 score"] = 3200
+        self.weights["is 7 score"] = 2400
+        self.weights["is 6 score"] = 1600
+        self.weights["is 3 score"] = 400
         self.weights["remaining pool count"] = 1
         
         self.alpha = 0.05

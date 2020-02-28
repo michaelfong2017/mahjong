@@ -120,6 +120,17 @@ class SimpleExtractor(FeatureExtractor):
         IsWin
         """
         features["is win"] = SimpleExtractor.IsWin(self, state.ownPlayer)
+        
+        
+        """
+        Is10Score, Is9Score, etc
+        """
+        features["is 10 score"] = SimpleExtractor.Is10Score(self, state.ownPlayer)
+        features["is 8 score"] = SimpleExtractor.Is8Score(self, state.ownPlayer)
+        features["is 7 score"] = SimpleExtractor.Is7Score(self, state.ownPlayer)
+        features["is 6 score"] = SimpleExtractor.Is6Score(self, state.ownPlayer)
+        features["is 3 score"] = SimpleExtractor.Is3Score(self, state.ownPlayer)
+        
 
 
         """
@@ -214,13 +225,13 @@ class SimpleExtractor(FeatureExtractor):
                 if i == 0:
                     continue
                 if len(indexes) == 0:
-                    if tiles_hand_copy[i].tile_integer == tiles_hand_copy[i - 1].tile_integer + 1:
+                    if tiles_hand_copy[i].tile_pattern <= 2 and tiles_hand_copy[i].tile_integer == tiles_hand_copy[i - 1].tile_integer + 1:
                         indexes.append(i - 1)
                         indexes.append(i)
                 else:
                     if tiles_hand_copy[i].tile_integer == tiles_hand_copy[i - 1].tile_integer:
                         continue
-                    elif tiles_hand_copy[i].tile_integer == tiles_hand_copy[i - 1].tile_integer + 1:
+                    elif tiles_hand_copy[i].tile_pattern <= 2 and tiles_hand_copy[i].tile_integer == tiles_hand_copy[i - 1].tile_integer + 1:
                         indexes.append(i)
                         count = count + 1
                         tiles_hand_copy.pop(indexes[2])
@@ -238,7 +249,7 @@ class SimpleExtractor(FeatureExtractor):
         count = RemoveSequence(self, count)
         
         for tiles in player.tiles_displayed:
-            if tiles[1].tile_integer == tiles[0].tile_integer + 1:
+            if tiles_hand_copy[i].tile_pattern <= 2 and tiles[1].tile_integer == tiles[0].tile_integer + 1:
                 count = count + 1
             
         return count
@@ -254,13 +265,13 @@ class SimpleExtractor(FeatureExtractor):
                 if i == 0:
                     continue
                 if len(indexes) == 0:
-                    if tiles_hand_copy[i].tile_integer == tiles_hand_copy[i - 1].tile_integer + 1:
+                    if tiles_hand_copy[i].tile_pattern <= 2 and tiles_hand_copy[i].tile_integer == tiles_hand_copy[i - 1].tile_integer + 1:
                         indexes.append(i - 1)
                         indexes.append(i)
                 else:
                     if tiles_hand_copy[i].tile_integer == tiles_hand_copy[i - 1].tile_integer:
                         continue
-                    elif tiles_hand_copy[i].tile_integer == tiles_hand_copy[i - 1].tile_integer + 1:
+                    elif tiles_hand_copy[i].tile_pattern <= 2 and tiles_hand_copy[i].tile_integer == tiles_hand_copy[i - 1].tile_integer + 1:
                         indexes.append(i)
                         count = count + 1
                         tiles_hand_copy.pop(indexes[2])
@@ -663,10 +674,71 @@ class SimpleExtractor(FeatureExtractor):
         tiles_displayed = player.tiles_displayed
         tiles_hand = player.tiles_hand
         
+        score = 0
+        maxscore = 20
         
+        if SimpleExtractor.IsWin(self, player):
+            tiles_13Or14 = player.GetTiles_13Or14()
+            hasDot = False
+            hasBamboo = False
+            hasCharacter = False
+            hasHonor = False
+            for tile in tiles_13Or14:
+                if tile.tile_pattern == 0:
+                    hasDot = True
+                if tile.tile_pattern == 1:
+                    hasBamboo = True
+                if tile.tile_pattern == 2:
+                    hasCharacter = True
+                if tile.tile_pattern == 3:
+                    hasHonor = True
+                    
+            if hasDot and not hasBamboo and not hasCharacter and not hasHonor:
+                score = score + 7
+            if not hasDot and hasBamboo and not hasCharacter and not hasHonor:
+                score = score + 7
+            if not hasDot and not hasBamboo and hasCharacter and not hasHonor:
+                score = score + 7
+            if not hasDot and not hasBamboo and not hasCharacter and hasHonor:
+                score = maxscore
+            if hasDot and not hasBamboo and not hasCharacter and hasHonor:
+                score = score + 3
+            if not hasDot and hasBamboo and not hasCharacter and hasHonor:
+                score = score + 3
+            if not hasDot and not hasBamboo and hasCharacter and hasHonor:
+                score = score + 3
+                
+            if SimpleExtractor.GetNumberOfTriplets(self, player) == 4:
+                score = score + 3
         
-        return
+        return score
         
+    def Is10Score(self, player):
+        if SimpleExtractor.GetWinScore(self, player) == 10:
+            return 1
+        else:
+            return 0
+    def Is8Score(self, player):
+        if SimpleExtractor.GetWinScore(self, player) == 8:
+            return 1
+        else:
+            return 0
+            
+    def Is7Score(self, player):
+        if SimpleExtractor.GetWinScore(self, player) == 7:
+            return 1
+        else:
+            return 0
+    def Is6Score(self, player):
+        if SimpleExtractor.GetWinScore(self, player) == 6:
+            return 1
+        else:
+            return 0
+    def Is3Score(self, player):
+        if SimpleExtractor.GetWinScore(self, player) == 3:
+            return 1
+        else:
+            return 0
         
     def GetNumberOfOrphans(self, player): #only in tiles_hand
         tiles_unique = list(set(player.tiles_hand))
