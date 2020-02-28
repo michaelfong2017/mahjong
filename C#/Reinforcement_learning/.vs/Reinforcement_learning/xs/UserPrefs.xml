@@ -1,20 +1,40 @@
-﻿<Properties>
-  <MonoDevelop.Ide.Workbench ActiveDocument="../../../neurogym/Assets/Reinforcement_Learning/golden/app/Program.cs">
+﻿<Properties StartupConfiguration="{4AA1EFF7-197E-411B-A086-30FF02D274BC}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Reinforcement_Learning/Main.cs">
     <Files>
-      <File FileName="../../../neurogym/Assets/Reinforcement_Learning/golden/app/Program.cs" Line="45" Column="7" />
+      <File FileName="Reinforcement_Learning/Tile.cs" Line="1" Column="1" />
+      <File FileName="Reinforcement_Learning_Console_App/Program.cs" Line="16" Column="30" />
+      <File FileName="Reinforcement_Learning/Main.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="Reinforcement_Learning" expanded="True">
             <Node name="Reinforcement_Learning" expanded="True">
-              <Node name="Class1.cs" selected="True" />
+              <Node name="Dependencies" expanded="True">
+                <Node name="AssemblyDependencies" expanded="True" />
+              </Node>
+              <Node name="Main.cs" selected="True" />
+            </Node>
+            <Node name="Reinforcement_Learning_Console_App" expanded="True">
+              <Node name="Dependencies" expanded="True" />
+            </Node>
+            <Node name="TestLibrary" expanded="True">
+              <Node name="Dependencies" expanded="True">
+                <Node name="ProjectDependencies" expanded="True" />
+              </Node>
             </Node>
           </Node>
         </State>
       </Pad>
+      <Pad Id="MonoDevelop.UnitTesting.TestPad">
+        <State name="__root__">
+          <Node name="Reinforcement_Learning" expanded="True" selected="True" />
+        </State>
+      </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.TestLibrary PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.ItemProperties.Reinforcement__Learning__Console__App PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

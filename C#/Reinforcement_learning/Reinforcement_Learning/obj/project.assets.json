@@ -25,15 +25,6 @@
         "build": {
           "build/netstandard2.0/NETStandard.Library.targets": {}
         }
-      },
-      "Unity3D/1.3.0": {
-        "type": "package",
-        "build": {
-          "build/Unity3D.props": {}
-        },
-        "buildMultiTargeting": {
-          "buildMultiTargeting/Unity3D.props": {}
-        }
       }
     }
   },
@@ -181,27 +172,11 @@
         "netstandard.library.2.0.3.nupkg.sha512",
         "netstandard.library.nuspec"
       ]
-    },
-    "Unity3D/1.3.0": {
-      "sha512": "nc/HkPOG0Ko0wuBJVmsVxcHDXXNryViDBCgiK97XnX+pNwmZAn9HaL2Z3vI1WYEqfnIOx9+F7Ae5n53wSmVMwA==",
-      "type": "package",
-      "path": "unity3d/1.3.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "build/Unity3D.props",
-        "buildMultiTargeting/Unity3D.props",
-        "icon.png",
-        "readme.txt",
-        "unity3d.1.3.0.nupkg.sha512",
-        "unity3d.nuspec"
-      ]
     }
   },
   "projectFileDependencyGroups": {
     ".NETStandard,Version=v2.0": [
-      "NETStandard.Library >= 2.0.3",
-      "Unity3D >= 1.3.0"
+      "NETStandard.Library >= 2.0.3"
     ]
   },
   "packageFolders": {
@@ -244,10 +219,6 @@
             "target": "Package",
             "version": "[2.0.3, )",
             "autoReferenced": true
-          },
-          "Unity3D": {
-            "target": "Package",
-            "version": "[1.3.0, )"
           }
         },
         "imports": [

@@ -1,3 +1,12 @@
 /Users/michael/mahjong/C#/Reinforcement_learning/Reinforcement_Learning/obj/Debug/netstandard2.0/Reinforcement_Learning.csprojAssemblyReference.cache
 /Users/michael/mahjong/C#/Reinforcement_learning/Reinforcement_Learning/obj/Debug/netstandard2.0/Reinforcement_Learning.AssemblyInfoInputs.cache
 /Users/michael/mahjong/C#/Reinforcement_learning/Reinforcement_Learning/obj/Debug/netstandard2.0/Reinforcement_Learning.AssemblyInfo.cs
+/Users/michael/mahjong/C#/Reinforcement_learning/Reinforcement_Learning/bin/Debug/netstandard2.0/Reinforcement_Learning.deps.json
+/Users/michael/mahjong/C#/Reinforcement_learning/Reinforcement_Learning/bin/Debug/netstandard2.0/Reinforcement_Learning.dll
+/Users/michael/mahjong/C#/Reinforcement_learning/Reinforcement_Learning/bin/Debug/netstandard2.0/Reinforcement_Learning.pdb
+/Users/michael/mahjong/C#/Reinforcement_learning/Reinforcement_Learning/obj/Debug/netstandard2.0/Reinforcement_Learning.dll
+/Users/michael/mahjong/C#/Reinforcement_learning/Reinforcement_Learning/obj/Debug/netstandard2.0/Reinforcement_Learning.pdb
+/Users/michael/mahjong/C#/Reinforcement_learning/Reinforcement_Learning/bin/Debug/netstandard2.0/UnityEngine.dll
+/Users/michael/mahjong/C#/Reinforcement_learning/Reinforcement_Learning/bin/Debug/netstandard2.0/UnityEngine.pdb
+/Users/michael/mahjong/C#/Reinforcement_learning/Reinforcement_Learning/bin/Debug/netstandard2.0/UnityEngine.xml
+/Users/michael/mahjong/C#/Reinforcement_learning/Reinforcement_Learning/obj/Debug/netstandard2.0/Reinforcement_Learning.csproj.CopyComplete

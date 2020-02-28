@@ -6,10 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Unity3D" Version="1.3.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="neurogym.csproj" />
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\..\..\..\..\Applications\Unity\Hub\Editor\2019.3.0f6\Unity.app\Contents\Managed\UnityEngine.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>

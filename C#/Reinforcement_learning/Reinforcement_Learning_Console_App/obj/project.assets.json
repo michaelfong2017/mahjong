@@ -1,0 +1,86 @@
+{
+  "version": 3,
+  "targets": {
+    ".NETCoreApp,Version=v3.1": {
+      "Reinforcement_Learning/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.0",
+        "compile": {
+          "bin/placeholder/Reinforcement_Learning.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Reinforcement_Learning.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Reinforcement_Learning/1.0.0": {
+      "type": "project",
+      "path": "../Reinforcement_Learning/Reinforcement_Learning.csproj",
+      "msbuildProject": "../Reinforcement_Learning/Reinforcement_Learning.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    ".NETCoreApp,Version=v3.1": [
+      "Reinforcement_Learning >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "/Users/michael/.nuget/packages/": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "/Users/michael/mahjong/C#/Reinforcement_learning/Reinforcement_Learning_Console_App/Reinforcement_Learning_Console_App.csproj",
+      "projectName": "Reinforcement_Learning_Console_App",
+      "projectPath": "/Users/michael/mahjong/C#/Reinforcement_learning/Reinforcement_Learning_Console_App/Reinforcement_Learning_Console_App.csproj",
+      "packagesPath": "/Users/michael/.nuget/packages/",
+      "outputPath": "/Users/michael/mahjong/C#/Reinforcement_learning/Reinforcement_Learning_Console_App/obj/",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "/Users/michael/.config/NuGet/NuGet.Config"
+      ],
+      "originalTargetFrameworks": [
+        "netcoreapp3.1"
+      ],
+      "sources": {
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "projectReferences": {
+            "/Users/michael/mahjong/C#/Reinforcement_learning/Reinforcement_Learning/Reinforcement_Learning.csproj": {
+              "projectPath": "/Users/michael/mahjong/C#/Reinforcement_learning/Reinforcement_Learning/Reinforcement_Learning.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "netcoreapp3.1": {
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.1.102/RuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}
