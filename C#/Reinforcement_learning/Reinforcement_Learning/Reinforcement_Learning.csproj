@@ -2,6 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <UnityVersion>2019.3.0f6</UnityVersion>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Unity3D" Version="1.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="neurogym.csproj" />
+  </ItemGroup>
 </Project>

@@ -1,0 +1,3 @@
+/Users/michael/mahjong/C#/Reinforcement_learning/Reinforcement_Learning/obj/Debug/netstandard2.0/Reinforcement_Learning.csprojAssemblyReference.cache
+/Users/michael/mahjong/C#/Reinforcement_learning/Reinforcement_Learning/obj/Debug/netstandard2.0/Reinforcement_Learning.AssemblyInfoInputs.cache
+/Users/michael/mahjong/C#/Reinforcement_learning/Reinforcement_Learning/obj/Debug/netstandard2.0/Reinforcement_Learning.AssemblyInfo.cs

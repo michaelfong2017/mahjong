@@ -1,8 +1,7 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.ItemProperties.Reinforcement__Learning FirstBuild="True" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Reinforcement_Learning/Class1.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="../../../neurogym/Assets/Reinforcement_Learning/golden/app/Program.cs">
     <Files>
-      <File FileName="Reinforcement_Learning/Class1.cs" Line="1" Column="1" />
+      <File FileName="../../../neurogym/Assets/Reinforcement_Learning/golden/app/Program.cs" Line="45" Column="7" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
