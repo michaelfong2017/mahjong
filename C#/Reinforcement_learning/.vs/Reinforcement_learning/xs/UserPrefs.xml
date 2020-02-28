@@ -1,0 +1,25 @@
+﻿<Properties>
+  <MonoDevelop.Ide.ItemProperties.Reinforcement__Learning FirstBuild="True" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Reinforcement_Learning/Class1.cs">
+    <Files>
+      <File FileName="Reinforcement_Learning/Class1.cs" Line="1" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Reinforcement_Learning" expanded="True">
+            <Node name="Reinforcement_Learning" expanded="True">
+              <Node name="Class1.cs" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
