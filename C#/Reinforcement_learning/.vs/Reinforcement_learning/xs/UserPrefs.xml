@@ -2,7 +2,7 @@
   <MonoDevelop.Ide.Workbench ActiveDocument="Reinforcement_Learning/Main.cs">
     <Files>
       <File FileName="Reinforcement_Learning_Console_App/Program.cs" Line="17" Column="2" />
-      <File FileName="Reinforcement_Learning/Tile.cs" Line="30" Column="44" />
+      <File FileName="Reinforcement_Learning/Tile.cs" />
       <File FileName="Reinforcement_Learning/Main.cs" Line="24" Column="1" />
     </Files>
     <Pads>
@@ -10,13 +10,10 @@
         <State name="__root__">
           <Node name="Reinforcement_Learning" expanded="True">
             <Node name="Reinforcement_Learning" expanded="True">
-              <Node name="Dependencies" expanded="True">
-                <Node name="AssemblyDependencies" expanded="True" />
-              </Node>
-              <Node name="Main.cs" selected="True" />
+              <Node name="Dependencies" expanded="True" />
             </Node>
             <Node name="Reinforcement_Learning_Console_App" expanded="True">
-              <Node name="Dependencies" expanded="True" />
+              <Node name="Dependencies" expanded="True" selected="True" />
             </Node>
             <Node name="TestLibrary" expanded="True">
               <Node name="Dependencies" expanded="True">
@@ -24,6 +21,11 @@
               </Node>
             </Node>
           </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.UnitTesting.TestPad">
+        <State name="__root__">
+          <Node name="Reinforcement_Learning" expanded="True" selected="True" />
         </State>
       </Pad>
     </Pads>

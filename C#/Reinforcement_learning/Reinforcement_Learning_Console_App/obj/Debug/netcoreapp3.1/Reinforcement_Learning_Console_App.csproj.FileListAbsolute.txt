@@ -12,5 +12,5 @@
 /Users/michael/mahjong/C#/Reinforcement_learning/Reinforcement_Learning_Console_App/obj/Debug/netcoreapp3.1/Reinforcement_Learning_Console_App.dll
 /Users/michael/mahjong/C#/Reinforcement_learning/Reinforcement_Learning_Console_App/obj/Debug/netcoreapp3.1/Reinforcement_Learning_Console_App.pdb
 /Users/michael/mahjong/C#/Reinforcement_learning/Reinforcement_Learning_Console_App/bin/Debug/netcoreapp3.1/UnityEngine.dll
-/Users/michael/mahjong/C#/Reinforcement_learning/Reinforcement_Learning_Console_App/bin/Debug/netcoreapp3.1/UnityEngine.pdb
 /Users/michael/mahjong/C#/Reinforcement_learning/Reinforcement_Learning_Console_App/bin/Debug/netcoreapp3.1/UnityEngine.xml
+/Users/michael/mahjong/C#/Reinforcement_learning/Reinforcement_Learning_Console_App/bin/Debug/netcoreapp3.1/UnityEngine.dll.mdb
