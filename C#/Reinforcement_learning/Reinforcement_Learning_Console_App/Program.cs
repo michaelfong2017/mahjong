@@ -11,7 +11,7 @@ namespace Reinforcement_Learning_Console_App
     {
         static void Main(string[] args)
         {
-            Reinforcement_Learning.Main.Start();
+            Reinforcement_Learning.Main.Start(args);
         }
     }
 }
