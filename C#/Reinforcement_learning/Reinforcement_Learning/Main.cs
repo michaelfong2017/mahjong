@@ -40,21 +40,19 @@ namespace Reinforcement_Learning
             state.ownPlayer.tiles_hand.Add(new Tile("16"));
             state.ownPlayer.tiles_hand.Add(new Tile("17"));
             state.ownPlayer.tiles_hand.Add(new Tile("18"));
-            state.ownPlayer.tiles_hand.Add(new Tile("22"));
+            state.ownPlayer.tiles_hand.Add(new Tile("13"));
             GFG gg = new GFG();
             state.ownPlayer.tiles_hand.Sort(gg);
             Main.DebugLog("state: ");
             state.Print();
 
-            SimpleExtractor simpleExtractor = new SimpleExtractor();
-            Dictionary<string, float> features = simpleExtractor.GetFeatures(state);
+            Dictionary<string, float> features = SimpleExtractor.GetFeatures(state);
             Main.DebugLog("features: ");
             foreach (KeyValuePair<string, float> kvp in features)
             {
                 Main.DebugLog("\"" + kvp.Key + "\": " + kvp.Value);
             }
-            ApproximateQAgent approximateQAgent = new ApproximateQAgent();
-            Dictionary<string, float> weights = approximateQAgent.GetWeights();
+            Dictionary<string, float> weights = ApproximateQAgent.GetWeights();
             Main.DebugLog("weights: ");
             foreach(KeyValuePair<string, float> kvp in weights)
             {
@@ -62,7 +60,7 @@ namespace Reinforcement_Learning
             }
 
             Main.DebugLog("value for the state: ");
-            Main.DebugLog(approximateQAgent.GetQValue(state));
+            Main.DebugLog(ApproximateQAgent.GetQValue(state));
 
         }
 

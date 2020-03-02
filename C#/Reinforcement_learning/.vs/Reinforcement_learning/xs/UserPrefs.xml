@@ -1,11 +1,11 @@
 ﻿<Properties StartupConfiguration="{4AA1EFF7-197E-411B-A086-30FF02D274BC}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Reinforcement_Learning/QLearningAgents.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Reinforcement_Learning/FeatureExtractors.cs">
     <Files>
-      <File FileName="Reinforcement_Learning/Main.cs" Line="52" Column="68" />
-      <File FileName="Reinforcement_Learning/Class.cs" Line="58" Column="1" />
+      <File FileName="Reinforcement_Learning/Main.cs" Line="60" Column="14" />
       <File FileName="Reinforcement_Learning_Console_App/Program.cs" Line="14" Column="53" />
-      <File FileName="Reinforcement_Learning/FeatureExtractors.cs" Line="73" Column="25" />
-      <File FileName="Reinforcement_Learning/QLearningAgents.cs" Line="8" Column="11" />
+      <File FileName="Reinforcement_Learning/QLearningAgents.cs" Line="8" Column="12" />
+      <File FileName="Reinforcement_Learning/Class.cs" Line="52" Column="39" />
+      <File FileName="Reinforcement_Learning/FeatureExtractors.cs" Line="234" Column="26" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -13,7 +13,7 @@
           <Node name="Reinforcement_Learning" expanded="True">
             <Node name="Reinforcement_Learning" expanded="True">
               <Node name="Dependencies" expanded="True" />
-              <Node name="QLearningAgents.cs" selected="True" />
+              <Node name="FeatureExtractors.cs" selected="True" />
             </Node>
             <Node name="Reinforcement_Learning_Console_App" expanded="True">
               <Node name="Dependencies" expanded="True" />

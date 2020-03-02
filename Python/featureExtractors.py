@@ -249,7 +249,7 @@ class SimpleExtractor(FeatureExtractor):
         count = RemoveSequence(self, count)
         
         for tiles in player.tiles_displayed:
-            if tiles_hand_copy[i].tile_pattern <= 2 and tiles[1].tile_integer == tiles[0].tile_integer + 1:
+            if tiles[0].tile_pattern <= 2 and tiles[1].tile_integer == tiles[0].tile_integer + 1:
                 count = count + 1
             
         return count
@@ -675,7 +675,7 @@ class SimpleExtractor(FeatureExtractor):
         tiles_hand = player.tiles_hand
         
         score = 0
-        maxscore = 20
+        maxScore = 20
         
         if SimpleExtractor.IsWin(self, player):
             tiles_13Or14 = player.GetTiles_13Or14()
