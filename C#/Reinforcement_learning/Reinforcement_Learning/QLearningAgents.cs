@@ -31,7 +31,7 @@ namespace Reinforcement_Learning
                 { "remaining pool count", 1 }
             };
 
-    public static Dictionary<string, float> GetWeights()
+        public static Dictionary<string, float> GetWeights()
         {
             return weights;
         }

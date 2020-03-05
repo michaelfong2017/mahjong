@@ -14,7 +14,7 @@
         "outputPath": "/Users/michael/mahjong/C#/Reinforcement_learning/Reinforcement_Learning/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/michael/.config/NuGet/NuGet.Config"
+          "/Users/michael/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netstandard2.0"
