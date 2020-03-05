@@ -247,12 +247,19 @@ namespace Reinforcement_Learning
             {
                 for (int j = 0; j < 13; j++)
                 {
-                    if (remaining_pool.Count != 0)
+                    while (remaining_pool[0].tile_pattern == 4)
                     {
-                        players[i].tiles_hand.Add(remaining_pool[0]);
+                        players[i].tiles_flower.Add(remaining_pool[0]);
                         remaining_pool.RemoveAt(0);
                     }
+                    players[i].tiles_hand.Add(remaining_pool[0]);
+                    remaining_pool.RemoveAt(0);
                 }
+            }
+            while (remaining_pool[0].tile_pattern == 4)
+            {
+                players[dealer].tiles_flower.Add(remaining_pool[0]);
+                remaining_pool.RemoveAt(0);
             }
             players[dealer].tiles_hand.Add(remaining_pool[0]);
             remaining_pool.RemoveAt(0);

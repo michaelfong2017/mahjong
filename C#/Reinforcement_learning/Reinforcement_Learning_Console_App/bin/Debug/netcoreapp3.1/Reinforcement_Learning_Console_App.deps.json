@@ -15,7 +15,18 @@
           "Reinforcement_Learning_Console_App.dll": {}
         }
       },
+      "IronXL.Excel/2019.5.2": {
+        "runtime": {
+          "lib/netstandard2.0/IronXL.dll": {
+            "assemblyVersion": "2019.5.2.0",
+            "fileVersion": "2019.5.2.0"
+          }
+        }
+      },
       "Reinforcement_Learning/1.0.0": {
+        "dependencies": {
+          "IronXL.Excel": "2019.5.2"
+        },
         "runtime": {
           "Reinforcement_Learning.dll": {}
         }
@@ -35,6 +46,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "IronXL.Excel/2019.5.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-hKZD4w84+rAQnbyjIQE1csqWTLW1oI40eXX6LItewg5PeGIrD70/dsT3WMAqCrrsQ0AQrXhbjZD7Za0MbKuD6Q==",
+      "path": "ironxl.excel/2019.5.2",
+      "hashPath": "ironxl.excel.2019.5.2.nupkg.sha512"
     },
     "Reinforcement_Learning/1.0.0": {
       "type": "project",

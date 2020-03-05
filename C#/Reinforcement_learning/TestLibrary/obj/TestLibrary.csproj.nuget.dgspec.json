@@ -36,6 +36,10 @@
       "frameworks": {
         "netstandard2.0": {
           "dependencies": {
+            "IronXL.Excel": {
+              "target": "Package",
+              "version": "[2019.5.2, )"
+            },
             "NETStandard.Library": {
               "suppressParent": "All",
               "target": "Package",

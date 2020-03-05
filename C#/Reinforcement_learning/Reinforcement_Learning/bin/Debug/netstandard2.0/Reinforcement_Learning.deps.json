@@ -9,11 +9,20 @@
     ".NETStandard,Version=v2.0/": {
       "Reinforcement_Learning/1.0.0": {
         "dependencies": {
+          "IronXL.Excel": "2019.5.2",
           "NETStandard.Library": "2.0.3",
           "UnityEngine": "0.0.0.0"
         },
         "runtime": {
           "Reinforcement_Learning.dll": {}
+        }
+      },
+      "IronXL.Excel/2019.5.2": {
+        "runtime": {
+          "lib/netstandard2.0/IronXL.dll": {
+            "assemblyVersion": "2019.5.2.0",
+            "fileVersion": "2019.5.2.0"
+          }
         }
       },
       "Microsoft.NETCore.Platforms/1.1.0": {},
@@ -37,6 +46,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "IronXL.Excel/2019.5.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-hKZD4w84+rAQnbyjIQE1csqWTLW1oI40eXX6LItewg5PeGIrD70/dsT3WMAqCrrsQ0AQrXhbjZD7Za0MbKuD6Q==",
+      "path": "ironxl.excel/2019.5.2",
+      "hashPath": "ironxl.excel.2019.5.2.nupkg.sha512"
     },
     "Microsoft.NETCore.Platforms/1.1.0": {
       "type": "package",

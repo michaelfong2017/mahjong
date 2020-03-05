@@ -10,4 +10,12 @@
       <HintPath>..\..\..\..\..\..\Applications\Unity\Hub\Editor\2019.1.7f1\Unity.app\Contents\Managed\UnityEngine.dll</HintPath>
     </Reference>
   </ItemGroup>
+  <ItemGroup>
+    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="QLearningAgents.cs">
+      <IncludeInPackage>false</IncludeInPackage>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="IronXL.Excel" Version="2019.5.2" />
+  </ItemGroup>
 </Project>
