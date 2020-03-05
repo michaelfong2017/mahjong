@@ -112,7 +112,8 @@ namespace Reinforcement_Learning
         public void Print()
         {
             string message;
-            message = "{\"tiles_displayed\": [";
+            message = "Reinforcement_Learning: ";
+            message += "{\"tiles_displayed\": [";
             int i = 0;
             foreach (List<Tile> tiles in ownPlayer.tiles_displayed)
             {

@@ -46,6 +46,42 @@ namespace Reinforcement_Learning
             }
             return sum;
         }
+
+        public static int GetDiscardDecision(State state)
+        {
+            List<float> allScores = new List<float>();
+            List<Tile> tiles_hand = state.ownPlayer.tiles_hand;
+            State state1;
+            state.Print();
+
+            Main.DebugLog("Reinforcement_Learning: original score: " + GetQValue(state).ToString());
+            foreach (Tile tile in tiles_hand)
+            {
+                state1 = new State();
+                state1.ownPlayer.tiles_hand = new List<Tile>(tiles_hand);
+                state1.ownPlayer.tiles_hand.Remove(tile);
+                allScores.Add(GetQValue(state1));
+            }
+
+            float maxScore = -1000000;
+            int maxIndex = 0;
+            for (int i = 0; i < allScores.Count; i++)
+            {
+                Main.DebugLog("Reinforcement_Learning: score after discarding " + tiles_hand[i].tile_code + " : " + allScores[i].ToString());
+                if (i == 0)
+                {
+                    maxScore = allScores[0];
+                    maxIndex = 0;
+                    continue;
+                }
+                if (allScores[i] > maxScore)
+                {
+                    maxScore = allScores[i];
+                    maxIndex = i;
+                }
+            }
+            return maxIndex;
+        }
     }
 }
  

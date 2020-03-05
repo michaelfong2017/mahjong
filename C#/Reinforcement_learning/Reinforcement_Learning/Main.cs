@@ -64,6 +64,7 @@ namespace Reinforcement_Learning
             Main.DebugLog("value for the state: ");
             Main.DebugLog(ApproximateQAgent.GetQValue(state));
 
+            Main.DebugLog(ApproximateQAgent.GetDiscardDecision(state));
 
             //GenerateTestCases(2, 201);
             //Excel.GenerateNeighbouringTestCases(2, 200);
