@@ -62,7 +62,8 @@ namespace Reinforcement_Learning
             numbersOfDishonorSuits.Sort((a, b) => b.CompareTo(a));
 
             features.Add("length of longest dishonor suit", numbersOfDishonorSuits[0]);
-            features.Add("length of second and third longest dishonor suit", numbersOfDishonorSuits[1] + numbersOfDishonorSuits[2]);
+            features.Add("length of second longest dishonor suit", numbersOfDishonorSuits[1]);
+            features.Add("length of third longest dishonor suit", numbersOfDishonorSuits[2]);
             features.Add("length of honor suit", numberOfHonor);
             if (numberOfHonor >= 11)
             {
@@ -1100,7 +1101,7 @@ namespace Reinforcement_Learning
 
                 if (tiles_hand_copy.Count % 3 == 1)
                 {
-                    foreach (Tile tile in state.possible_pool)
+                    foreach (Tile tile in _state.possible_pool)
                     {
                         if (tile.tile_pattern == 4)
                         {
@@ -1115,34 +1116,23 @@ namespace Reinforcement_Learning
                         };
                         new_except_eyes_meld_count = GetNumberOfMelds(new_player);
                         new_has_eyes_meld_count = GetNumberOfMeldsWithEyes(new_player);
-                        if (IsAllSingle(player) || IsAllSingle(new_player))
+                        if (IsAllSingle(player))
                         {
-                            new_has_eyes_meld_count = _original_has_eyes_meld_count;
+                            if (new_except_eyes_meld_count > _original_except_eyes_meld_count)
+                            {
+                                count++;
+                            }
                         }
-                        if (new_except_eyes_meld_count > _original_except_eyes_meld_count ||
-                            new_has_eyes_meld_count > _original_has_eyes_meld_count)
+                        else //(IsAllSingle(new_player))
                         {
-                            //Main.DebugLog($"Reinforcement_Learning: tile that improves 1 meld: {tile.tile_code}");
-                            count++;
+                            if (new_except_eyes_meld_count > _original_except_eyes_meld_count &&
+                                new_has_eyes_meld_count > _original_has_eyes_meld_count)
+                            {
+                                count++;
+                            }
                         }
                         tiles_hand_copy.Remove(tile);
                     }
-                }
-                else if (tiles_hand_copy.Count % 3 == 2)
-                {
-                    State state1;
-                    List<int> allScores = new List<int>();
-                    foreach (Tile tile in tiles_hand_copy)
-                    {
-                        state1 = new State();
-                        state1.DeepCopy(state);
-                        state1.ownPlayer.tiles_hand.Remove(tile);
-                        state1.discarded_pool.Add(tile);
-                        state1.UpdatePossiblePool();
-                        //Main.DebugLog($"Reinforcement_Learning: If I discard {tile.tile_code}:");
-                        allScores.Add(SameFunctionWithMoreInput(state1, _original_except_eyes_meld_count, _original_has_eyes_meld_count));
-                    }
-                    count = allScores.Max();
                 }
                 else
                 {
@@ -1153,8 +1143,26 @@ namespace Reinforcement_Learning
                 return count;
             }
 
-            output = SameFunctionWithMoreInput(state, original_except_eyes_meld_count, original_has_eyes_meld_count);
-
+            if (state.ownPlayer.tiles_hand.Count % 3 == 1)
+            {
+                output = SameFunctionWithMoreInput(state, original_except_eyes_meld_count, original_has_eyes_meld_count);
+            }
+            else if (state.ownPlayer.tiles_hand.Count % 3 == 2)
+            {
+                State state1;
+                List<int> allScores = new List<int>();
+                foreach (Tile tile in state.ownPlayer.tiles_hand)
+                {
+                    state1 = new State();
+                    state1.DeepCopy(state);
+                    state1.ownPlayer.tiles_hand.Remove(tile);
+                    state1.discarded_pool.Add(tile);
+                    state1.UpdatePossiblePool();
+                    //Main.DebugLog($"Reinforcement_Learning: If I discard {tile.tile_code}:");
+                    allScores.Add(SameFunctionWithMoreInput(state1, original_except_eyes_meld_count, original_has_eyes_meld_count));
+                }
+                output = allScores.Max();
+            }
             return output;
         }
         public static int GetNumberOfTilesThatImprovesEyes(State state)

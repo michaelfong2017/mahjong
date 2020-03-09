@@ -11,12 +11,13 @@ namespace Reinforcement_Learning
         static Dictionary<string, float> weights = new Dictionary<string, float>
             {
                 { "length of longest dishonor suit", 20 },
-                { "length of second and third longest dishonor suit", -35 },
+                { "length of second longest dishonor suit", -15 },
+                { "length of third longest dishonor suit", -20 },
                 { "length of honor suit", -18 },
                 { "is at least 11 honors", 500 },
-                { "number of triplets", 25 },
-                { "number of duplets", 10 },
-                { "number of sequences", 25 },
+                { "number of triplets", 40 },
+                { "number of duplets", 30 },
+                { "number of sequences", 40 },
                 { "number of good half sequences", 5 },
                 { "number of melds", 400 },
                 { "number of melds with eyes", 200 },
@@ -28,8 +29,8 @@ namespace Reinforcement_Learning
                 { "is 7 score", 2400 },
                 { "is 6 score", 1600 },
                 { "is 3 score", 400 },
-                { "number of tiles that improves 1 meld", 30 },
-                { "number of tiles that improves eyes", 15 },
+                { "number of tiles that improves 1 meld", 15 },
+                { "number of tiles that improves eyes", 10 },
                 { "remaining pool count", 1 }
             };
 
@@ -69,6 +70,7 @@ namespace Reinforcement_Learning
 
             float maxScore = -1000000;
             int maxIndex = 0;
+            List<int> maxIndexes = new List<int>();
             for (int i = 0; i < allScores.Count; i++)
             {
                 Main.DebugLog("Reinforcement_Learning: score after discarding " + tiles_hand[i].tile_code + " : " + allScores[i].ToString());
@@ -76,16 +78,24 @@ namespace Reinforcement_Learning
                 {
                     maxScore = allScores[0];
                     maxIndex = 0;
+                    maxIndexes.Add(0);
                     continue;
                 }
                 if (allScores[i] > maxScore)
                 {
                     maxScore = allScores[i];
                     maxIndex = i;
+                    maxIndexes.Clear();
+                    maxIndexes.Add(i);
+                }
+                if (allScores[i] == maxScore)
+                {
+                    maxIndexes.Add(i);
                 }
             }
+            System.Random rnd = new System.Random();
+            maxIndex = maxIndexes[rnd.Next(0, maxIndexes.Count)];
             return maxIndex;
         }
     }
 }
- 
