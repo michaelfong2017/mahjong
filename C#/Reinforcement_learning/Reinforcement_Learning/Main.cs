@@ -11,7 +11,7 @@ namespace Reinforcement_Learning
         {
             GFG gg;
 
-            Reinforcement_Learning.Tile tile0 = new Reinforcement_Learning.Tile("04");
+            /*Reinforcement_Learning.Tile tile0 = new Reinforcement_Learning.Tile("04");
             Main.DebugLog(tile0);
             Main.DebugLog(tile0.tile_pattern);
             Player player = new Player(0);
@@ -23,7 +23,7 @@ namespace Reinforcement_Learning
             oneGame.state.Print();
             gg = new GFG();
             oneGame.state.ownPlayer.tiles_hand.Sort(gg);
-            oneGame.state.Print();
+            oneGame.state.Print();*/
 
             State state = new State
             {
@@ -45,6 +45,23 @@ namespace Reinforcement_Learning
             state.ownPlayer.tiles_hand.Add(new Tile("17"));
             state.ownPlayer.tiles_hand.Add(new Tile("18"));
             state.ownPlayer.tiles_hand.Add(new Tile("33"));
+
+            // Create random discarded pool
+            state.discarded_pool.Add(new Tile("00"));
+            state.discarded_pool.Add(new Tile("03"));
+            state.discarded_pool.Add(new Tile("06"));
+            state.discarded_pool.Add(new Tile("06"));
+            state.discarded_pool.Add(new Tile("10"));
+            state.discarded_pool.Add(new Tile("12"));
+            state.discarded_pool.Add(new Tile("13"));
+            state.discarded_pool.Add(new Tile("13"));
+            state.discarded_pool.Add(new Tile("16"));
+            state.discarded_pool.Add(new Tile("20"));
+            state.discarded_pool.Add(new Tile("21"));
+            //state.discarded_pool.Add(new Tile("13"));
+
+            state.UpdatePossiblePool();
+
             gg = new GFG();
             state.ownPlayer.tiles_hand.Sort(gg);
             Main.DebugLog("state: ");

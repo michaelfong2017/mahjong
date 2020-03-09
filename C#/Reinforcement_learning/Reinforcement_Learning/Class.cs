@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 namespace Reinforcement_Learning
 {
@@ -106,7 +107,7 @@ namespace Reinforcement_Learning
         public Player lastPlayer;
 
         public List<Tile> remaining_pool;
-
+        public List<Tile> discarded_pool;
         public List<Tile> possible_pool;
 
         public State()
@@ -117,8 +118,8 @@ namespace Reinforcement_Learning
             lastPlayer = new Player(3);
 
             remaining_pool = new List<Tile>();
-
-            //possible_pool = 
+            discarded_pool = new List<Tile>();
+            possible_pool = new List<Tile>();
         }
 
         public void Print()
@@ -180,6 +181,119 @@ namespace Reinforcement_Learning
             message += "}";
 
             Main.DebugLog(message);
+        }
+
+        public void DeepCopy(State state)
+        {
+            ownPlayer.tiles_hand = new List<Tile>(state.ownPlayer.tiles_hand);
+            ownPlayer.tiles_displayed = new List<List<Tile>>(state.ownPlayer.tiles_displayed);
+            ownPlayer.tiles_flower = new List<Tile>(state.ownPlayer.tiles_flower);
+            remaining_pool = new List<Tile>(state.remaining_pool);
+            discarded_pool = new List<Tile>(state.discarded_pool);
+            possible_pool = new List<Tile>(state.possible_pool);
+        }
+
+        public void UpdatePossiblePool()
+        {
+            possible_pool.Clear();
+            for (int i = 0; i < 4; i++)
+            {
+                possible_pool.Add(new Tile("00"));
+                possible_pool.Add(new Tile("01"));
+                possible_pool.Add(new Tile("02"));
+                possible_pool.Add(new Tile("03"));
+                possible_pool.Add(new Tile("04"));
+                possible_pool.Add(new Tile("05"));
+                possible_pool.Add(new Tile("06"));
+                possible_pool.Add(new Tile("07"));
+                possible_pool.Add(new Tile("08"));
+                possible_pool.Add(new Tile("10"));
+                possible_pool.Add(new Tile("11"));
+                possible_pool.Add(new Tile("12"));
+                possible_pool.Add(new Tile("13"));
+                possible_pool.Add(new Tile("14"));
+                possible_pool.Add(new Tile("15"));
+                possible_pool.Add(new Tile("16"));
+                possible_pool.Add(new Tile("17"));
+                possible_pool.Add(new Tile("18"));
+                possible_pool.Add(new Tile("20"));
+                possible_pool.Add(new Tile("21"));
+                possible_pool.Add(new Tile("22"));
+                possible_pool.Add(new Tile("23"));
+                possible_pool.Add(new Tile("24"));
+                possible_pool.Add(new Tile("25"));
+                possible_pool.Add(new Tile("26"));
+                possible_pool.Add(new Tile("27"));
+                possible_pool.Add(new Tile("28"));
+                possible_pool.Add(new Tile("30"));
+                possible_pool.Add(new Tile("31"));
+                possible_pool.Add(new Tile("32"));
+                possible_pool.Add(new Tile("33"));
+                possible_pool.Add(new Tile("34"));
+                possible_pool.Add(new Tile("35"));
+                possible_pool.Add(new Tile("36"));
+            }
+            possible_pool.Add(new Tile("40"));
+            possible_pool.Add(new Tile("41"));
+            possible_pool.Add(new Tile("42"));
+            possible_pool.Add(new Tile("43"));
+            possible_pool.Add(new Tile("44"));
+            possible_pool.Add(new Tile("45"));
+            possible_pool.Add(new Tile("46"));
+            possible_pool.Add(new Tile("47"));
+
+            foreach (Tile tile in discarded_pool)
+            {
+                possible_pool.Remove(possible_pool.Find(eachTile => eachTile.tile_integer == tile.tile_integer));
+            }
+            foreach (Tile tile in ownPlayer.tiles_hand)
+            {
+                possible_pool.Remove(possible_pool.Find(eachTile => eachTile.tile_integer == tile.tile_integer));
+            }
+            foreach (Tile tile in ownPlayer.tiles_flower)
+            {
+                possible_pool.Remove(possible_pool.Find(eachTile => eachTile.tile_integer == tile.tile_integer));
+            }
+            foreach (List<Tile> tiles in ownPlayer.tiles_displayed)
+            {
+                foreach (Tile tile in tiles)
+                {
+                    possible_pool.Remove(possible_pool.Find(eachTile => eachTile.tile_integer == tile.tile_integer));
+                }
+            }
+            foreach (Tile tile in nextPlayer.tiles_flower)
+            {
+                possible_pool.Remove(possible_pool.Find(eachTile => eachTile.tile_integer == tile.tile_integer));
+            }
+            foreach (List<Tile> tiles in nextPlayer.tiles_displayed)
+            {
+                foreach (Tile tile in tiles)
+                {
+                    possible_pool.Remove(possible_pool.Find(eachTile => eachTile.tile_integer == tile.tile_integer));
+                }
+            }
+            foreach (Tile tile in oppositePlayer.tiles_flower)
+            {
+                possible_pool.Remove(possible_pool.Find(eachTile => eachTile.tile_integer == tile.tile_integer));
+            }
+            foreach (List<Tile> tiles in oppositePlayer.tiles_displayed)
+            {
+                foreach (Tile tile in tiles)
+                {
+                    possible_pool.Remove(possible_pool.Find(eachTile => eachTile.tile_integer == tile.tile_integer));
+                }
+            }
+            foreach (Tile tile in lastPlayer.tiles_flower)
+            {
+                possible_pool.Remove(possible_pool.Find(eachTile => eachTile.tile_integer == tile.tile_integer));
+            }
+            foreach (List<Tile> tiles in lastPlayer.tiles_displayed)
+            {
+                foreach (Tile tile in tiles)
+                {
+                    possible_pool.Remove(possible_pool.Find(eachTile => eachTile.tile_integer == tile.tile_integer));
+                }
+            }
         }
     }
 

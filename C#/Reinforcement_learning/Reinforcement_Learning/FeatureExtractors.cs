@@ -13,6 +13,7 @@ namespace Reinforcement_Learning
             Dictionary<string, float> features = new Dictionary<string, float>();
             GFG gg = new GFG();
             state.ownPlayer.tiles_hand.Sort(gg);
+            state.UpdatePossiblePool();
 
             List<Tile> tiles_13Or14 = state.ownPlayer.GetTiles_13Or14();
 
@@ -86,6 +87,8 @@ namespace Reinforcement_Learning
             features.Add("is 7 score", Is7Score(state.ownPlayer));
             features.Add("is 6 score", Is6Score(state.ownPlayer));
             features.Add("is 3 score", Is3Score(state.ownPlayer));
+            features.Add("number of tiles that improves 1 meld", GetNumberOfTilesThatImprovesOneMeld(state)); // 2+1 to 3+1, or 2+0 to 3+0
+            features.Add("number of tiles that improves eyes", GetNumberOfTilesThatImprovesEyes(state)); // 3+0 to 3+1
             features.Add("remaining pool count", state.remaining_pool.Count);
 
 
@@ -167,6 +170,19 @@ namespace Reinforcement_Learning
             {
                 return false;
             }
+        }
+        public static bool IsAllSingle(Player player)
+        {
+            bool allSingle = true;
+            foreach (Tile tile in player.tiles_hand)
+            {
+                if (!IsSingle(player, tile))
+                {
+                    allSingle = false;
+                    break;
+                }
+            }
+            return allSingle;
         }
         public static int GetNumberOfTriplets(Player player)
         {
@@ -773,16 +789,7 @@ namespace Reinforcement_Learning
         {
             List<Tile> tiles_hand = player.tiles_hand;
 
-            bool allSingle = true;
-            foreach (Tile tile in tiles_hand)
-            {
-                if (!IsSingle(player, tile))
-                {
-                    allSingle = false;
-                    break;
-                }
-            }
-            if (allSingle)
+            if (IsAllSingle(player))
             {
                 return 0;
             }
@@ -1074,6 +1081,86 @@ namespace Reinforcement_Learning
             {
                 return false;
             }
+        }
+
+        public static int GetNumberOfTilesThatImprovesOneMeld(State state)
+        {
+            int output = 0;
+            int original_except_eyes_meld_count = GetNumberOfMelds(state.ownPlayer);
+            int original_has_eyes_meld_count = GetNumberOfMeldsWithEyes(state.ownPlayer); // 0 if no duplets
+
+            int SameFunctionWithMoreInput(State _state, int _original_except_eyes_meld_count, int _original_has_eyes_meld_count)
+            {
+                Player player = _state.ownPlayer;
+                List<Tile> tiles_hand_copy = new List<Tile>(player.tiles_hand);
+
+                int new_except_eyes_meld_count = 0;
+                int new_has_eyes_meld_count = 0;
+                int count = 0;
+
+                if (tiles_hand_copy.Count % 3 == 1)
+                {
+                    foreach (Tile tile in state.possible_pool)
+                    {
+                        if (tile.tile_pattern == 4)
+                        {
+                            continue;
+                        }
+                        tiles_hand_copy.Add(tile);
+                        tiles_hand_copy = tiles_hand_copy.OrderBy(eachTile => eachTile.tile_integer).ToList();
+                        Player new_player = new Player(0)
+                        {
+                            tiles_hand = new List<Tile>(tiles_hand_copy),
+                            tiles_displayed = new List<List<Tile>>(player.tiles_displayed)
+                        };
+                        new_except_eyes_meld_count = GetNumberOfMelds(new_player);
+                        new_has_eyes_meld_count = GetNumberOfMeldsWithEyes(new_player);
+                        if (IsAllSingle(player) || IsAllSingle(new_player))
+                        {
+                            new_has_eyes_meld_count = _original_has_eyes_meld_count;
+                        }
+                        if (new_except_eyes_meld_count > _original_except_eyes_meld_count ||
+                            new_has_eyes_meld_count > _original_has_eyes_meld_count)
+                        {
+                            //Main.DebugLog($"Reinforcement_Learning: tile that improves 1 meld: {tile.tile_code}");
+                            count++;
+                        }
+                        tiles_hand_copy.Remove(tile);
+                    }
+                }
+                else if (tiles_hand_copy.Count % 3 == 2)
+                {
+                    State state1;
+                    List<int> allScores = new List<int>();
+                    foreach (Tile tile in tiles_hand_copy)
+                    {
+                        state1 = new State();
+                        state1.DeepCopy(state);
+                        state1.ownPlayer.tiles_hand.Remove(tile);
+                        state1.discarded_pool.Add(tile);
+                        state1.UpdatePossiblePool();
+                        //Main.DebugLog($"Reinforcement_Learning: If I discard {tile.tile_code}:");
+                        allScores.Add(SameFunctionWithMoreInput(state1, _original_except_eyes_meld_count, _original_has_eyes_meld_count));
+                    }
+                    count = allScores.Max();
+                }
+                else
+                {
+                    Main.DebugLog("Unreasonable!");
+                    return 0;
+                }
+
+                return count;
+            }
+
+            output = SameFunctionWithMoreInput(state, original_except_eyes_meld_count, original_has_eyes_meld_count);
+
+            return output;
+        }
+        public static int GetNumberOfTilesThatImprovesEyes(State state)
+        {
+            Player player = state.ownPlayer;
+            return 0;
         }
     }
 }

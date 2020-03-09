@@ -28,11 +28,9 @@ namespace Reinforcement_Learning
                 { "is 7 score", 2400 },
                 { "is 6 score", 1600 },
                 { "is 3 score", 400 },
-                { "remaining pool count", 1 },
-                { "number of tiles that improves 1 meld", 50 },
-                { "number of tiles that improves 2 melds", 150 },
-                { "number of tiles that improves eyes", 30 }
-
+                { "number of tiles that improves 1 meld", 30 },
+                { "number of tiles that improves eyes", 15 },
+                { "remaining pool count", 1 }
             };
 
         public static Dictionary<string, float> GetWeights()
@@ -62,8 +60,10 @@ namespace Reinforcement_Learning
             foreach (Tile tile in tiles_hand)
             {
                 state1 = new State();
-                state1.ownPlayer.tiles_hand = new List<Tile>(tiles_hand);
+                state1.DeepCopy(state);
                 state1.ownPlayer.tiles_hand.Remove(tile);
+                state1.discarded_pool.Add(tile);
+                state1.UpdatePossiblePool();
                 allScores.Add(GetQValue(state1));
             }
 
