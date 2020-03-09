@@ -92,7 +92,7 @@ namespace Reinforcement_Learning
             return features;
         }
 
-        public static bool IsQuadruplet(Player player, Tile tile)
+        public static bool IsQuadruplet(Player player, Tile tile) //Only tiles_hand
         {
             int count = 0;
             foreach (Tile eachtile in player.tiles_hand)
@@ -111,7 +111,7 @@ namespace Reinforcement_Learning
                 return false;
             }
         }
-        public static bool IsTriplet(Player player, Tile tile)
+        public static bool IsTriplet(Player player, Tile tile) //Only tiles_hand
         {
             int count = 0;
             foreach (Tile eachtile in player.tiles_hand)
@@ -130,7 +130,7 @@ namespace Reinforcement_Learning
                 return false;
             }
         }
-        public static bool IsDuplet(Player player, Tile tile)
+        public static bool IsDuplet(Player player, Tile tile) //Only tiles_hand
         {
             int count = 0;
             foreach (Tile eachtile in player.tiles_hand)
@@ -149,7 +149,7 @@ namespace Reinforcement_Learning
                 return false;
             }
         }
-        public static bool IsSingle(Player player, Tile tile)
+        public static bool IsSingle(Player player, Tile tile) //Only tiles_hand
         {
             int count = 0;
             foreach (Tile eachtile in player.tiles_hand)
@@ -341,17 +341,15 @@ namespace Reinforcement_Learning
             List<Tile> tiles_hand = player.tiles_hand;
             int numberOfGoodHalfSequences = 0;
 
-            int i = 0;
-            foreach (Tile tile in tiles_hand)
+            for (int i = 0; i < tiles_hand.Count; i++)
             {
                 if (i == 0)
                 {
-                    i++;
                     continue;
                 }
                 else if (tiles_hand.Count == 2)
                 {
-                    if(tiles_hand[0].tile_pattern <= 2 &&
+                    if (tiles_hand[0].tile_pattern <= 2 &&
                         tiles_hand[1].tile_integer == tiles_hand[0].tile_integer + 1)
                     {
                         return 1;
@@ -370,9 +368,23 @@ namespace Reinforcement_Learning
                     bool hasAnotherHalf = false;
                     for (int j = 0; j < tiles_hand.Count - 1 - i; j++)
                     {
-                        if (tiles_hand[i + j + 1].tile_integer == tiles_hand[i].tile_integer + 1)
+                        if (tiles_hand[i].tile_pattern <= 2 &&
+                            tiles_hand[i + j + 1].tile_pattern <= 2 &&
+                            tiles_hand[i + j + 1].tile_integer == tiles_hand[i].tile_integer + 1)
                         {
                             hasAnotherHalf = true;
+                        }
+                    }
+                    if (i >= 2)
+                    {
+                        for (int j = 0; j < i - 2 + 1; j++)
+                        {
+                            if (tiles_hand[i].tile_pattern <= 2 &&
+                                tiles_hand[i - j - 2].tile_pattern <= 2 &&
+                                tiles_hand[i - j - 2].tile_integer == tiles_hand[i].tile_integer - 2)
+                            {
+                                hasAnotherHalf = true;
+                            }
                         }
                     }
                     if (tiles_hand[i - 1].tile_pattern <= 2 &&
@@ -1025,7 +1037,7 @@ namespace Reinforcement_Learning
             }
         }
 
-        public static int GetNumberOfOrphans(Player player)
+        public static int GetNumberOfOrphans(Player player) //Only tiles_hand
         {
             List<Tile> tiles_unique = new List<Tile>(new HashSet<Tile>(player.tiles_hand));
             int count = 0;
@@ -1065,4 +1077,3 @@ namespace Reinforcement_Learning
         }
     }
 }
- 

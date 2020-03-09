@@ -29,20 +29,22 @@ namespace Reinforcement_Learning
             {
                 ownPlayer = new Player(0)
             };
-            state.ownPlayer.tiles_hand.Add(new Tile("10"));
-            state.ownPlayer.tiles_hand.Add(new Tile("10"));
-            state.ownPlayer.tiles_hand.Add(new Tile("11"));
-            state.ownPlayer.tiles_hand.Add(new Tile("11"));
+            state.ownPlayer.tiles_displayed.Add(new List<Tile>());
+            state.ownPlayer.tiles_displayed[0].Add(new Tile("10"));
+            state.ownPlayer.tiles_displayed[0].Add(new Tile("11"));
+            state.ownPlayer.tiles_displayed[0].Add(new Tile("12"));
+
+            state.ownPlayer.tiles_hand.Add(new Tile("22"));
+            state.ownPlayer.tiles_hand.Add(new Tile("22"));
+            state.ownPlayer.tiles_hand.Add(new Tile("22"));
             state.ownPlayer.tiles_hand.Add(new Tile("12"));
-            state.ownPlayer.tiles_hand.Add(new Tile("12"));
-            state.ownPlayer.tiles_hand.Add(new Tile("12"));
-            state.ownPlayer.tiles_hand.Add(new Tile("13"));
             state.ownPlayer.tiles_hand.Add(new Tile("13"));
             state.ownPlayer.tiles_hand.Add(new Tile("14"));
-            state.ownPlayer.tiles_hand.Add(new Tile("16"));
+            state.ownPlayer.tiles_hand.Add(new Tile("14"));
+            state.ownPlayer.tiles_hand.Add(new Tile("15"));
             state.ownPlayer.tiles_hand.Add(new Tile("17"));
             state.ownPlayer.tiles_hand.Add(new Tile("18"));
-            state.ownPlayer.tiles_hand.Add(new Tile("13"));
+            state.ownPlayer.tiles_hand.Add(new Tile("33"));
             gg = new GFG();
             state.ownPlayer.tiles_hand.Sort(gg);
             Main.DebugLog("state: ");

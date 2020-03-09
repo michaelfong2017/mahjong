@@ -1,12 +1,12 @@
 ﻿<Properties StartupConfiguration="{4AA1EFF7-197E-411B-A086-30FF02D274BC}|Default">
   <MonoDevelop.Ide.Workbench ActiveDocument="Reinforcement_Learning/Class.cs">
     <Files>
-      <File FileName="Reinforcement_Learning/Main.cs" Line="70" Column="15" />
+      <File FileName="Reinforcement_Learning/Main.cs" Line="70" Column="1" />
       <File FileName="Reinforcement_Learning_Console_App/Program.cs" />
       <File FileName="Reinforcement_Learning/QLearningAgents.cs" />
       <File FileName="Reinforcement_Learning/Class.cs" Line="1" Column="1" />
       <File FileName="Reinforcement_Learning/FeatureExtractors.cs" />
-      <File FileName="Reinforcement_Learning/Excel.cs" Line="3" Column="19" />
+      <File FileName="Reinforcement_Learning/Excel.cs" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">

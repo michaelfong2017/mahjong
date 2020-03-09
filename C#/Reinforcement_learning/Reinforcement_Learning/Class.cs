@@ -101,19 +101,35 @@ namespace Reinforcement_Learning
     public class State
     {
         public Player ownPlayer;
+        public Player nextPlayer;
+        public Player oppositePlayer;
+        public Player lastPlayer;
+
         public List<Tile> remaining_pool;
+
+        public List<Tile> possible_pool;
 
         public State()
         {
             ownPlayer = new Player(0);
+            nextPlayer = new Player(1);
+            oppositePlayer = new Player(2);
+            lastPlayer = new Player(3);
+
             remaining_pool = new List<Tile>();
+
+            //possible_pool = 
         }
 
         public void Print()
         {
             string message;
             message = "Reinforcement_Learning: ";
-            message += "{\"tiles_displayed\": [";
+            message += "{\"tiles_displayed\": ";
+            if (ownPlayer.tiles_displayed.Count != 0)
+            {
+                message += "[";
+            }
             int i = 0;
             foreach (List<Tile> tiles in ownPlayer.tiles_displayed)
             {

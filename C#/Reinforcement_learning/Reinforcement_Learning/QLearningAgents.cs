@@ -28,7 +28,11 @@ namespace Reinforcement_Learning
                 { "is 7 score", 2400 },
                 { "is 6 score", 1600 },
                 { "is 3 score", 400 },
-                { "remaining pool count", 1 }
+                { "remaining pool count", 1 },
+                { "number of tiles that improves 1 meld", 50 },
+                { "number of tiles that improves 2 melds", 150 },
+                { "number of tiles that improves eyes", 30 }
+
             };
 
         public static Dictionary<string, float> GetWeights()
