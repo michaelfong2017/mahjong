@@ -9,3 +9,4 @@
 /Users/michael/mahjong/C#/Reinforcement_learning/Reinforcement_Learning/bin/Debug/netstandard2.0/UnityEngine.xml
 /Users/michael/mahjong/C#/Reinforcement_learning/Reinforcement_Learning/obj/Debug/netstandard2.0/Reinforcement_Learning.csproj.CopyComplete
 /Users/michael/mahjong/C#/Reinforcement_learning/Reinforcement_Learning/bin/Debug/netstandard2.0/UnityEngine.dll.mdb
+/Users/michael/mahjong/C#/Reinforcement_learning/Reinforcement_Learning/bin/Debug/netstandard2.0/UnityEngine.dll

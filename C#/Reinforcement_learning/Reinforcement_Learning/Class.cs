@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 using System.Linq;
 
 namespace Reinforcement_Learning
@@ -29,6 +30,12 @@ namespace Reinforcement_Learning
             tile_pattern = int.Parse(tile_code) / 10;
             tile_number = int.Parse(tile_code) % 10;
             discardedBy = DiscardBy.NOBODY;
+        }
+
+        public static explicit operator Reinforcement_Learning.Tile(NewGameStructure.Tile _tile)
+        {
+            return new Reinforcement_Learning.Tile(_tile.GetCode());
+            throw new NotImplementedException();
         }
 
         public int CompareTo(Tile y)
