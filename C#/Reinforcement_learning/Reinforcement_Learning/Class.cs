@@ -70,14 +70,16 @@ namespace Reinforcement_Learning
 
     public class Player
     {
-        public int player_number;
+        public int playerIndex;
+        public int playerIndexLocal;
         public List<Tile> tiles_hand;
         public List<List<Tile>> tiles_displayed;
         public List<Tile> tiles_flower;
 
-        public Player(int _player_number)
+        public Player(int _playerIndexLocal)
         {
-            player_number = _player_number;
+            playerIndex = new int();
+            playerIndexLocal = _playerIndexLocal;
             tiles_hand = new List<Tile>();
             tiles_displayed = new List<List<Tile>>();
             tiles_flower = new List<Tile>();
@@ -117,6 +119,9 @@ namespace Reinforcement_Learning
         public List<Tile> discarded_pool;
         public List<Tile> possible_pool;
 
+        public int prevailingWind;
+        public int dealer;
+
         public State()
         {
             ownPlayer = new Player(0);
@@ -127,12 +132,15 @@ namespace Reinforcement_Learning
             remaining_pool = new List<Tile>();
             discarded_pool = new List<Tile>();
             possible_pool = new List<Tile>();
+
+            prevailingWind = new int();
+            dealer = new int();
         }
 
         public void Print()
         {
             string message;
-            message = "Reinforcement_Learning: ";
+            message = $"Reinforcement_Learning: Player {ownPlayer.playerIndex}:";
             message += "{\"tiles_displayed\": ";
             if (ownPlayer.tiles_displayed.Count != 0)
             {
@@ -195,9 +203,15 @@ namespace Reinforcement_Learning
             ownPlayer.tiles_hand = new List<Tile>(state.ownPlayer.tiles_hand);
             ownPlayer.tiles_displayed = new List<List<Tile>>(state.ownPlayer.tiles_displayed);
             ownPlayer.tiles_flower = new List<Tile>(state.ownPlayer.tiles_flower);
+
             remaining_pool = new List<Tile>(state.remaining_pool);
             discarded_pool = new List<Tile>(state.discarded_pool);
             possible_pool = new List<Tile>(state.possible_pool);
+
+            prevailingWind = state.prevailingWind;
+            dealer = state.dealer;
+
+            ownPlayer.playerIndex = state.ownPlayer.playerIndex;
         }
 
         public void UpdatePossiblePool()
@@ -306,16 +320,16 @@ namespace Reinforcement_Learning
 
     public class OneGame
     {
-        public int wind;
+        public int prevailingWind;
         public int dealer;
         public List<Tile> remaining_pool;
         public List<Tile> discarded_pool;
         public List<Player> players;
         public State state;
 
-        public OneGame(int _wind, int _dealer)
+        public OneGame(int _prevailingWind, int _dealer)
         {
-            wind = _wind;
+            prevailingWind = _prevailingWind;
             dealer = _dealer;
             remaining_pool = new List<Tile>();
             discarded_pool = new List<Tile>();
@@ -405,7 +419,7 @@ namespace Reinforcement_Learning
 
         public int GetWind()
         {
-            return wind;
+            return prevailingWind;
         }
     }
 
@@ -417,11 +431,11 @@ namespace Reinforcement_Learning
             int n = list.Count;
             while (n > 1)
             {
-            n--;
-            int k = rng.Next(n + 1);
-            T value = list[k];
-            list[k] = list[n];
-            list[n] = value;
+                n--;
+                int k = rng.Next(n + 1);
+                T value = list[k];
+                list[k] = list[n];
+                list[n] = value;
             }
         }
     }

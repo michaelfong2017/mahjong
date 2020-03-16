@@ -74,13 +74,73 @@ namespace Reinforcement_Learning
                 features.Add("is at least 11 honors", 0);
             }
 
+            if (numbersOfDishonorSuits[0] == 12)
+            {
+                features.Add("is 12 longest dishonor suit", 1);
+            }
+            else
+            {
+                features.Add("is 12 longest dishonor suit", 0);
+            }
+            if (numbersOfDishonorSuits[0] == 13)
+            {
+                features.Add("is 13 longest dishonor suit", 1);
+            }
+            else
+            {
+                features.Add("is 13 longest dishonor suit", 0);
+            }
+            if (numbersOfDishonorSuits[0] == 14)
+            {
+                features.Add("is 14 longest dishonor suit", 1);
+            }
+            else
+            {
+                features.Add("is 14 longest dishonor suit", 0);
+            }
+            if (numbersOfDishonorSuits[1] == 2 &&
+                numbersOfDishonorSuits[2] == 0)
+            {
+                features.Add("is 2 second longest dishonor suit", 1);
+            }
+            else
+            {
+                features.Add("is 2 second longest dishonor suit", 0);
+            }
+            if (numbersOfDishonorSuits[1] == 1 &&
+                numbersOfDishonorSuits[2] == 0)
+            {
+                features.Add("is 1 second longest dishonor suit", 1);
+            }
+            else
+            {
+                features.Add("is 1 second longest dishonor suit", 0);
+            }
+            if (numbersOfDishonorSuits[1] == 0 &&
+                numbersOfDishonorSuits[2] == 0)
+            {
+                features.Add("is 0 second longest dishonor suit", 1);
+            }
+            else
+            {
+                features.Add("is 0 second longest dishonor suit", 0);
+            }
+            features.Add("number of prevailing wind honor", GetNumberOfPrevailingWindHonor(state));
+            features.Add("number of dealer honor", GetNumberOfDealerHonor(state));
+            features.Add("number of both prevailing wind and dealer honor", GetNumberOfBothPrevailingWindAndDealerHonor(state));
+            features.Add("number of dragon honor", GetNumberOfDragonHonor(state));
+            features.Add("is all single", IsAllSingle(state.ownPlayer) ? 1 : 0);
             features.Add("number of triplets", GetNumberOfTriplets(state.ownPlayer));
             features.Add("number of duplets", GetNumberOfDuplets(state.ownPlayer));
+            features.Add("number of remaining duplets", GetNumberOfRemainingDuplets(state.ownPlayer));
             features.Add("number of sequences", GetNumberOfSequences(state.ownPlayer));
             features.Add("number of good half sequences", GetNumberOfGoodHalfSequences(state.ownPlayer));
-            features.Add("number of melds", GetNumberOfMelds(state.ownPlayer));
-            features.Add("number of melds with eyes", GetNumberOfMeldsWithEyes(state.ownPlayer));
+            features.Add("number of first neighbours within 2", GetNumberOfFirstNeighboursWithinTwo(state));
+            features.Add("number of displayed melds", GetNumberOfDisplayedMelds(state.ownPlayer));
+            features.Add("number of hand melds", GetNumberOfHandMelds(state.ownPlayer));
+            features.Add("number of hand melds with eyes", GetNumberOfHandMeldsWithEyes(state.ownPlayer));
             features.Add("number of orphans", GetNumberOfOrphans(state.ownPlayer));
+            features.Add("number of 2 or 8", GetNumberOfTwoOrEight(state.ownPlayer));
             features.Add("is 13 orphans", Is_13_Orphans(state.ownPlayer) ? 1 : 0);
             features.Add("is win", IsWin(state.ownPlayer) ? 1 : 0);
             features.Add("is 10 score", Is10Score(state.ownPlayer));
@@ -90,6 +150,9 @@ namespace Reinforcement_Learning
             features.Add("is 3 score", Is3Score(state.ownPlayer));
             features.Add("number of tiles that improves 1 meld", GetNumberOfTilesThatImprovesOneMeld(state)); // 2+1 to 3+1, or 2+0 to 3+0
             features.Add("number of tiles that improves eyes", GetNumberOfTilesThatImprovesEyes(state)); // 3+0 to 3+1
+            features.Add("number of tiles that improves triplets", GetNumberOfTilesThatImprovesTriplets(state));
+            features.Add("number of tiles that wins", GetNumberOfTilesThatWins(state));
+            features.Add("number of tiles that improves remaining duplets", GetNumberOfTilesThatImprovesRemainingDuplets(state));
             features.Add("remaining pool count", state.remaining_pool.Count);
 
 
@@ -185,6 +248,67 @@ namespace Reinforcement_Learning
             }
             return allSingle;
         }
+
+        public static int GetNumberOfPrevailingWindHonor(State state) //Wind only
+        {
+            List<Tile> tiles_hand = state.ownPlayer.tiles_hand;
+            int count = 0;
+            foreach (Tile tile in tiles_hand)
+            {
+                if (tile.tile_pattern == 3 &&
+                    tile.tile_number == state.prevailingWind &&
+                    tile.tile_number != (state.ownPlayer.playerIndex - state.dealer + 4) % 4)
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+        public static int GetNumberOfDealerHonor(State state) //Dealer only
+        {
+            List<Tile> tiles_hand = state.ownPlayer.tiles_hand;
+            int count = 0;
+            foreach (Tile tile in tiles_hand)
+            {
+                if (tile.tile_pattern == 3 &&
+                    tile.tile_number != state.prevailingWind &&
+                    tile.tile_number == (state.ownPlayer.playerIndex - state.dealer + 4) % 4)
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+        public static int GetNumberOfBothPrevailingWindAndDealerHonor(State state) //Dealer only
+        {
+            List<Tile> tiles_hand = state.ownPlayer.tiles_hand;
+            int count = 0;
+            foreach (Tile tile in tiles_hand)
+            {
+                if (tile.tile_pattern == 3 &&
+                    tile.tile_number == state.prevailingWind &&
+                    tile.tile_number == (state.ownPlayer.playerIndex - state.dealer + 4) % 4)
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+        public static int GetNumberOfDragonHonor(State state) //Dealer only
+        {
+            List<Tile> tiles_hand = state.ownPlayer.tiles_hand;
+            int count = 0;
+            foreach (Tile tile in tiles_hand)
+            {
+                if (tile.tile_pattern == 3 &&
+                    tile.tile_number >= 4)
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+
         public static int GetNumberOfTriplets(Player player)
         {
             int numberOfTriplets = 0;
@@ -233,6 +357,12 @@ namespace Reinforcement_Learning
 
             return numberOfDuplets;
         }
+
+        public static int GetNumberOfRemainingDuplets(Player player)
+        {
+            return 0;
+        }
+
         public static int GetNumberOfSequences(Player player)
         {
             int count = 0;
@@ -413,6 +543,46 @@ namespace Reinforcement_Learning
                 }
             }
             return numberOfGoodHalfSequences;
+        }
+
+        public static int GetNumberOfFirstNeighboursWithinTwo(State state)
+        {
+            List<Tile> tiles_hand = state.ownPlayer.tiles_hand;
+            int count = 0;
+            if (GetNumberOfHandMelds(state.ownPlayer) == 0 &&
+                GetNumberOfTilesThatImprovesOneMeld(state) == 0 &&
+                tiles_hand.Count % 3 == 2)
+            {
+                foreach (Tile tile in tiles_hand)
+                {
+                    if (tile.tile_pattern == 3)
+                    {
+                        foreach (Tile eachTile in state.possible_pool)
+                        {
+                            if (tile.tile_integer == eachTile.tile_integer)
+                            {
+                                count++;
+                            }
+                        }
+                    }
+                    else if (tile.tile_pattern <= 2)
+                    {
+                        foreach (Tile eachTile in state.possible_pool)
+                        {
+                            if (tile.tile_pattern == eachTile.tile_pattern &&
+                                Math.Abs(tile.tile_number - eachTile.tile_number) <= 2)
+                            {
+                                count++;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Main.DebugLog("Should not have flowers!");
+                    }
+                }
+            }
+            return count;
         }
 
         public static int GetNumberOfMelds(Player player)
@@ -917,6 +1087,19 @@ namespace Reinforcement_Learning
             return max;
         }
 
+        public static int GetNumberOfDisplayedMelds(Player player)
+        {
+            return player.tiles_displayed.Count;
+        }
+        public static int GetNumberOfHandMelds(Player player)
+        {
+            return GetNumberOfMelds(player) - GetNumberOfDisplayedMelds(player);
+        }
+        public static int GetNumberOfHandMeldsWithEyes(Player player)
+        {
+            return GetNumberOfMeldsWithEyes(player) - GetNumberOfDisplayedMelds(player);
+        }
+
         public static int GetWinScore(Player player)
         {
             List<List<Tile>> tiles_displayed = player.tiles_displayed;
@@ -1060,6 +1243,21 @@ namespace Reinforcement_Learning
 
             return count;
         }
+        public static int GetNumberOfTwoOrEight(Player player)
+        {
+            List<Tile> tiles_unique = new List<Tile>(new HashSet<Tile>(player.tiles_hand));
+            int count = 0;
+
+            new List<string> { "01", "07", "11", "17", "21", "27" }.ForEach(orphan =>
+            {
+                if (tiles_unique.Any(tile => tile.tile_code == orphan))
+                {
+                    count++;
+                }
+            });
+
+            return count;
+        }
 
         public static bool Is_13_Orphans(Player player)
         {
@@ -1087,8 +1285,8 @@ namespace Reinforcement_Learning
         public static int GetNumberOfTilesThatImprovesOneMeld(State state)
         {
             int output = 0;
-            int original_except_eyes_meld_count = GetNumberOfMelds(state.ownPlayer);
-            int original_has_eyes_meld_count = GetNumberOfMeldsWithEyes(state.ownPlayer); // 0 if no duplets
+            int original_except_eyes_meld_count = GetNumberOfHandMelds(state.ownPlayer);
+            int original_has_eyes_meld_count = GetNumberOfHandMeldsWithEyes(state.ownPlayer); // 0 if no duplets
 
             int SameFunctionWithMoreInput(State _state, int _original_except_eyes_meld_count, int _original_has_eyes_meld_count)
             {
@@ -1114,8 +1312,8 @@ namespace Reinforcement_Learning
                             tiles_hand = new List<Tile>(tiles_hand_copy),
                             tiles_displayed = new List<List<Tile>>(player.tiles_displayed)
                         };
-                        new_except_eyes_meld_count = GetNumberOfMelds(new_player);
-                        new_has_eyes_meld_count = GetNumberOfMeldsWithEyes(new_player);
+                        new_except_eyes_meld_count = GetNumberOfHandMelds(new_player);
+                        new_has_eyes_meld_count = GetNumberOfHandMeldsWithEyes(new_player);
                         if (IsAllSingle(player))
                         {
                             if (new_except_eyes_meld_count > _original_except_eyes_meld_count)
@@ -1123,7 +1321,7 @@ namespace Reinforcement_Learning
                                 count++;
                             }
                         }
-                        else //(IsAllSingle(new_player))
+                        else
                         {
                             if (new_except_eyes_meld_count > _original_except_eyes_meld_count &&
                                 new_has_eyes_meld_count > _original_has_eyes_meld_count)
@@ -1166,6 +1364,222 @@ namespace Reinforcement_Learning
             return output;
         }
         public static int GetNumberOfTilesThatImprovesEyes(State state)
+        {
+            int output = 0;
+            int original_except_eyes_meld_count = GetNumberOfHandMelds(state.ownPlayer);
+            int original_has_eyes_meld_count = GetNumberOfHandMeldsWithEyes(state.ownPlayer); // 0 if no duplets
+
+            int SameFunctionWithMoreInput(State _state, int _original_except_eyes_meld_count, int _original_has_eyes_meld_count)
+            {
+                Player player = _state.ownPlayer;
+                List<Tile> tiles_hand_copy = new List<Tile>(player.tiles_hand);
+
+                int new_except_eyes_meld_count = 0;
+                int new_has_eyes_meld_count = 0;
+                int count = 0;
+
+                if (tiles_hand_copy.Count % 3 == 1)
+                {
+                    foreach (Tile tile in _state.possible_pool)
+                    {
+                        if (tile.tile_pattern == 4)
+                        {
+                            continue;
+                        }
+                        tiles_hand_copy.Add(tile);
+                        tiles_hand_copy = tiles_hand_copy.OrderBy(eachTile => eachTile.tile_integer).ToList();
+                        Player new_player = new Player(0)
+                        {
+                            tiles_hand = new List<Tile>(tiles_hand_copy),
+                            tiles_displayed = new List<List<Tile>>(player.tiles_displayed)
+                        };
+                        new_except_eyes_meld_count = GetNumberOfHandMelds(new_player);
+                        new_has_eyes_meld_count = GetNumberOfHandMeldsWithEyes(new_player);
+                        if (IsAllSingle(player))
+                        {
+                            if (new_has_eyes_meld_count == _original_except_eyes_meld_count &&
+                                new_has_eyes_meld_count > _original_has_eyes_meld_count &&
+                                new_except_eyes_meld_count == _original_except_eyes_meld_count)
+                            {
+                                //Main.DebugLog("This is " + tile.tile_code);
+                                count++;
+                            }
+                        }
+                        else
+                        {
+                            if (new_has_eyes_meld_count == _original_except_eyes_meld_count &&
+                                new_has_eyes_meld_count > _original_has_eyes_meld_count &&
+                                new_except_eyes_meld_count == _original_except_eyes_meld_count)
+                            {
+                                //Main.DebugLog("This is " + tile.tile_code);
+                                count++;
+                            }
+                        }
+                        tiles_hand_copy.Remove(tile);
+                    }
+                }
+                else
+                {
+                    Main.DebugLog("Unreasonable!");
+                    return 0;
+                }
+
+                return count;
+            }
+
+            if (state.ownPlayer.tiles_hand.Count % 3 == 1)
+            {
+                output = SameFunctionWithMoreInput(state, original_except_eyes_meld_count, original_has_eyes_meld_count);
+            }
+            else if (state.ownPlayer.tiles_hand.Count % 3 == 2)
+            {
+                State state1;
+                List<int> allScores = new List<int>();
+                foreach (Tile tile in state.ownPlayer.tiles_hand)
+                {
+                    state1 = new State();
+                    state1.DeepCopy(state);
+                    state1.ownPlayer.tiles_hand.Remove(tile);
+                    state1.discarded_pool.Add(tile);
+                    state1.UpdatePossiblePool();
+                    //Main.DebugLog($"Reinforcement_Learning: If I discard {tile.tile_code}:");
+                    allScores.Add(SameFunctionWithMoreInput(state1, original_except_eyes_meld_count, original_has_eyes_meld_count));
+                }
+                output = allScores.Max();
+            }
+            return output;
+        }
+        public static int GetNumberOfTilesThatImprovesTriplets(State state)
+        {
+            int output = 0;
+            int original_triplets_count = GetNumberOfTriplets(state.ownPlayer);
+
+            int SameFunctionWithMoreInput(State _state, int _original_triplets_count)
+            {
+                Player player = _state.ownPlayer;
+                List<Tile> tiles_hand_copy = new List<Tile>(player.tiles_hand);
+
+                int new_triplets_count = 0;
+                int count = 0;
+
+                if (tiles_hand_copy.Count % 3 == 1)
+                {
+                    foreach (Tile tile in _state.possible_pool)
+                    {
+                        if (tile.tile_pattern == 4)
+                        {
+                            continue;
+                        }
+                        tiles_hand_copy.Add(tile);
+                        tiles_hand_copy = tiles_hand_copy.OrderBy(eachTile => eachTile.tile_integer).ToList();
+                        Player new_player = new Player(0)
+                        {
+                            tiles_hand = new List<Tile>(tiles_hand_copy),
+                            tiles_displayed = new List<List<Tile>>(player.tiles_displayed)
+                        };
+                        new_triplets_count = GetNumberOfTriplets(new_player);
+                        if (new_triplets_count > _original_triplets_count)
+                        {
+                            count++;
+                        }
+                        tiles_hand_copy.Remove(tile);
+                    }
+                }
+                else
+                {
+                    Main.DebugLog("Unreasonable!");
+                    return 0;
+                }
+
+                return count;
+            }
+
+            if (state.ownPlayer.tiles_hand.Count % 3 == 1)
+            {
+                output = SameFunctionWithMoreInput(state, original_triplets_count);
+            }
+            else if (state.ownPlayer.tiles_hand.Count % 3 == 2)
+            {
+                State state1;
+                List<int> allScores = new List<int>();
+                foreach (Tile tile in state.ownPlayer.tiles_hand)
+                {
+                    state1 = new State();
+                    state1.DeepCopy(state);
+                    state1.ownPlayer.tiles_hand.Remove(tile);
+                    state1.discarded_pool.Add(tile);
+                    state1.UpdatePossiblePool();
+                    //Main.DebugLog($"Reinforcement_Learning: If I discard {tile.tile_code}:");
+                    allScores.Add(SameFunctionWithMoreInput(state1, original_triplets_count));
+                }
+                output = allScores.Max();
+            }
+            return output;
+        }
+        public static int GetNumberOfTilesThatWins(State state)
+        {
+            int output = 0;
+            int SameFunctionWithMoreInput(State _state)
+            {
+                Player player = _state.ownPlayer;
+                List<Tile> tiles_hand_copy = new List<Tile>(player.tiles_hand);
+
+                int count = 0;
+
+                if (tiles_hand_copy.Count % 3 == 1)
+                {
+                    foreach (Tile tile in _state.possible_pool)
+                    {
+                        if (tile.tile_pattern == 4)
+                        {
+                            continue;
+                        }
+                        tiles_hand_copy.Add(tile);
+                        tiles_hand_copy = tiles_hand_copy.OrderBy(eachTile => eachTile.tile_integer).ToList();
+                        Player new_player = new Player(0)
+                        {
+                            tiles_hand = new List<Tile>(tiles_hand_copy),
+                            tiles_displayed = new List<List<Tile>>(player.tiles_displayed)
+                        };
+                        if (IsWin(new_player))
+                        {
+                            count++;
+                        }
+                        tiles_hand_copy.Remove(tile);
+                    }
+                }
+                else
+                {
+                    Main.DebugLog("Unreasonable!");
+                    return 0;
+                }
+
+                return count;
+            }
+
+            if (state.ownPlayer.tiles_hand.Count % 3 == 1)
+            {
+                output = SameFunctionWithMoreInput(state);
+            }
+            else if (state.ownPlayer.tiles_hand.Count % 3 == 2)
+            {
+                State state1;
+                List<int> allScores = new List<int>();
+                foreach (Tile tile in state.ownPlayer.tiles_hand)
+                {
+                    state1 = new State();
+                    state1.DeepCopy(state);
+                    state1.ownPlayer.tiles_hand.Remove(tile);
+                    state1.discarded_pool.Add(tile);
+                    state1.UpdatePossiblePool();
+                    //Main.DebugLog($"Reinforcement_Learning: If I discard {tile.tile_code}:");
+                    allScores.Add(SameFunctionWithMoreInput(state1));
+                }
+                output = allScores.Max();
+            }
+            return output;
+        }
+        public static int GetNumberOfTilesThatImprovesRemainingDuplets(State state)
         {
             Player player = state.ownPlayer;
             return 0;

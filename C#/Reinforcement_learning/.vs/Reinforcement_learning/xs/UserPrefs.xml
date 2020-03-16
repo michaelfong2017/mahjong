@@ -1,37 +1,13 @@
 ﻿<Properties StartupConfiguration="{4AA1EFF7-197E-411B-A086-30FF02D274BC}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Reinforcement_Learning/Main.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Reinforcement_Learning/FeatureExtractors.cs">
     <Files>
-      <File FileName="Reinforcement_Learning/Main.cs" Line="63" Column="40" />
-      <File FileName="Reinforcement_Learning_Console_App/Program.cs" Line="1" Column="1" />
-      <File FileName="Reinforcement_Learning/QLearningAgents.cs" Line="65" Column="52" />
-      <File FileName="Reinforcement_Learning/Class.cs" Line="279" Column="42" />
-      <File FileName="Reinforcement_Learning/FeatureExtractors.cs" Line="1162" Column="25" />
-      <File FileName="Reinforcement_Learning/Excel.cs" />
+      <File FileName="Reinforcement_Learning/Main.cs" Line="99" Column="43" />
+      <File FileName="Reinforcement_Learning_Console_App/Program.cs" Line="14" Column="41" />
+      <File FileName="Reinforcement_Learning/QLearningAgents.cs" Line="31" Column="55" />
+      <File FileName="Reinforcement_Learning/Class.cs" Line="444" Column="1" />
+      <File FileName="Reinforcement_Learning/FeatureExtractors.cs" Line="151" Column="55" />
+      <File FileName="Reinforcement_Learning/Excel.cs" Line="1" Column="1" />
     </Files>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State name="__root__">
-          <Node name="Reinforcement_Learning" expanded="True">
-            <Node name="Reinforcement_Learning" expanded="True">
-              <Node name="Dependencies" expanded="True" />
-              <Node name="NewGameStructure" expanded="True" />
-              <Node name="Main.cs" selected="True" />
-            </Node>
-            <Node name="Reinforcement_Learning_Console_App" expanded="True">
-              <Node name="Dependencies" expanded="True" />
-            </Node>
-            <Node name="TestLibrary" expanded="True">
-              <Node name="Dependencies" expanded="True">
-                <Node name="ProjectDependencies" expanded="True" />
-              </Node>
-            </Node>
-          </Node>
-        </State>
-      </Pad>
-      <Pad Id="MonoDevelop.Debugger.WatchPad">
-        <State />
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.ItemProperties.TestLibrary PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.ItemProperties.Reinforcement__Learning__Console__App PreferredExecutionTarget="MonoDevelop.Default" />

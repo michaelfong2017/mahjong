@@ -30,21 +30,26 @@ namespace Reinforcement_Learning
                 ownPlayer = new Player(0)
             };
             state.ownPlayer.tiles_displayed.Add(new List<Tile>());
-            state.ownPlayer.tiles_displayed[0].Add(new Tile("10"));
-            state.ownPlayer.tiles_displayed[0].Add(new Tile("11"));
-            state.ownPlayer.tiles_displayed[0].Add(new Tile("12"));
+            state.ownPlayer.tiles_displayed[0].Add(new Tile("21"));
+            state.ownPlayer.tiles_displayed[0].Add(new Tile("22"));
+            state.ownPlayer.tiles_displayed[0].Add(new Tile("23"));
+            state.ownPlayer.tiles_displayed.Add(new List<Tile>());
+            state.ownPlayer.tiles_displayed[1].Add(new Tile("26"));
+            state.ownPlayer.tiles_displayed[1].Add(new Tile("27"));
+            state.ownPlayer.tiles_displayed[1].Add(new Tile("28"));
 
-            state.ownPlayer.tiles_hand.Add(new Tile("22"));
-            state.ownPlayer.tiles_hand.Add(new Tile("22"));
-            state.ownPlayer.tiles_hand.Add(new Tile("22"));
-            state.ownPlayer.tiles_hand.Add(new Tile("12"));
-            state.ownPlayer.tiles_hand.Add(new Tile("13"));
-            state.ownPlayer.tiles_hand.Add(new Tile("14"));
-            state.ownPlayer.tiles_hand.Add(new Tile("14"));
-            state.ownPlayer.tiles_hand.Add(new Tile("15"));
+            state.ownPlayer.tiles_hand.Add(new Tile("03"));
+            state.ownPlayer.tiles_hand.Add(new Tile("04"));
+            state.ownPlayer.tiles_hand.Add(new Tile("05"));
+            state.ownPlayer.tiles_hand.Add(new Tile("05"));
             state.ownPlayer.tiles_hand.Add(new Tile("17"));
             state.ownPlayer.tiles_hand.Add(new Tile("18"));
-            state.ownPlayer.tiles_hand.Add(new Tile("33"));
+            state.ownPlayer.tiles_hand.Add(new Tile("05"));
+            state.ownPlayer.tiles_hand.Add(new Tile("05"));
+            /*state.ownPlayer.tiles_hand.Add(new Tile("31"));
+            state.ownPlayer.tiles_hand.Add(new Tile("32"));
+            state.ownPlayer.tiles_hand.Add(new Tile("32"));
+            state.ownPlayer.tiles_hand.Add(new Tile("33"));*/
 
             // Create random discarded pool
             state.discarded_pool.Add(new Tile("00"));
@@ -59,6 +64,10 @@ namespace Reinforcement_Learning
             state.discarded_pool.Add(new Tile("20"));
             state.discarded_pool.Add(new Tile("21"));
             //state.discarded_pool.Add(new Tile("13"));
+
+            state.ownPlayer.playerIndex = 2;
+            state.prevailingWind = 0;
+            state.dealer = 0;
 
             state.UpdatePossiblePool();
 
